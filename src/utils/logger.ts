@@ -1,6 +1,8 @@
+import formatDate from "./formatDate";
+
 const log = (level: string, message: string) => {
-  const timestamp: string = new Date().toLocaleString();
-  console.log(`[${timestamp}] [${level.toUpperCase()}]: ${message}`);
+  const timestamp: string = formatDate(new Date());
+  console.log(`[${timestamp}] [${level.toUpperCase()}] ${message}`);
 };
 
 // Logging methods
