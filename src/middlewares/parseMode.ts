@@ -1,17 +1,17 @@
-import { Context } from "telegraf";
+import { Telegram, Context } from "telegraf";
 import { ParseMode } from "telegraf/typings/core/types/typegram";
 import NextFunction from "../types/nextFunction";
 
 const parseMode = (parse_mode: ParseMode) => {
   return async (ctx: Context, next: NextFunction) => {
-    ctx.telegram.sendMessage = (chatId, text, options = {}) => {
-      options.parse_mode = options.parse_mode || parse_mode; // Set default parse_mode
+    ctx.telegram.sendMessage = (chatId, text, extra = {}) => {
+      extra.parse_mode = extra.parse_mode || parse_mode; // Set default parse_mode
 
-      return ctx.telegram.constructor.prototype.sendMessage.call(
+      return Telegram.prototype.sendMessage.call(
         ctx.telegram,
         chatId,
         text,
-        options
+        extra
       );
     };
     await next();

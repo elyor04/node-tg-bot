@@ -1,8 +1,9 @@
 import bot from "./bot";
 import shutdown from "./utils/shutdown";
+import logger from "./utils/logger";
 
 // Start the bot
-console.log("Starting bot...");
+logger.info("Starting bot...");
 
 bot.launch().catch((err) => {
   console.error(err);

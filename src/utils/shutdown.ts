@@ -1,7 +1,8 @@
 import { Telegraf } from "telegraf";
+import logger from "./logger";
 
 const shutdown = (bot: Telegraf, signal: string) => {
-  console.log("Shutting down...");
+  logger.info("Shutting down...");
   bot.stop(signal);
 };
 
