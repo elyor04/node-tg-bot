@@ -1,0 +1,13 @@
+name: tg-bot
+
+services:
+  bot-app:
+    image: node:20
+    container_name: tg-bot-app
+    restart: always
+    command: bash -c "npm install && npm start"
+    working_dir: /app
+    volumes:
+      - .:/app
+    env_file:
+      - .env
