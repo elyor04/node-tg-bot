@@ -1,20 +1,13 @@
 import { Telegraf } from "telegraf";
 import { BOT_TOKEN } from "./utils/config";
-import logging from "./middlewares/logging";
-import parseMode from "./middlewares/parseMode";
-import startCommand from "./commands/start";
-import echoHandler from "./handlers/echo";
+import registerMiddlewares from "./middlewares";
+import registerCommands from "./commands";
+import registerHandlers from "./handlers";
 
 const bot = new Telegraf(BOT_TOKEN);
 
-// Middlewares
-bot.use(logging);
-bot.use(parseMode("HTML"));
-
-// Commands
-bot.start(startCommand);
-
-// Handlers
-bot.on("text", echoHandler);
+registerMiddlewares(bot);
+registerCommands(bot);
+registerHandlers(bot);
 
 export default bot;
