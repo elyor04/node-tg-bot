@@ -6,7 +6,9 @@ const startCommand = async (ctx: Context) => {
   const full_name = `${user?.first_name || ""} ${user?.last_name || ""}`.trim();
   const user_mention = `<a href="tg://user?id=${user?.id}">${full_name}</a>`;
 
-  await ctx.reply(`Hello there, ${user_mention}`);
+  await ctx.reply(`Hello there, ${user_mention}`, {
+    parse_mode: "HTML",
+  });
 };
 
 export default startCommand;
