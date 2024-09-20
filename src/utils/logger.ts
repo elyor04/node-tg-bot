@@ -1,7 +1,7 @@
 import formatDate from "./formatDate";
 
 const log = (level: string, message: string) => {
-  const timestamp: string = formatDate(new Date());
+  const timestamp: string = formatDate(new Date(), "YYYY-MM-DD HH:mm:ss");
   console.log(`[${timestamp}] [${level}] ${message}`);
 };
 
