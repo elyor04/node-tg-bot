@@ -1,8 +1,8 @@
 import { Telegraf } from "telegraf";
-import logging from "./logging";
+import logMiddleware from "./log";
 
 const registerMiddlewares = (bot: Telegraf) => {
-  bot.use(logging);
+  bot.use(logMiddleware);
 };
 
 export default registerMiddlewares;
