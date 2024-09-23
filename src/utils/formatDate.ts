@@ -2,7 +2,7 @@ const zeroPad = (num: number, places: number) =>
   String(num).padStart(places, "0");
 
 const formatDate = (date: Date, format: string) => {
-  const map: any = {
+  const map = {
     YYYY: zeroPad(date.getFullYear(), 4),
     MM: zeroPad(date.getMonth() + 1, 2),
     DD: zeroPad(date.getDate(), 2),
@@ -11,6 +11,7 @@ const formatDate = (date: Date, format: string) => {
     ss: zeroPad(date.getSeconds(), 2),
   };
 
+  // @ts-ignore
   return format.replace(/YYYY|MM|DD|HH|mm|ss/g, (matched) => map[matched]);
 };
 
