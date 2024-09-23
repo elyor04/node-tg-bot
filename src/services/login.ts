@@ -22,7 +22,7 @@ const loginToSAP = async () => {
 
       if (res?.data?.error?.message)
         return {
-          error: `Could not login to SAP. ${res.data.error.message}`,
+          error: `Could not login to SAP. ${res.data.error.message.trim()}`,
         };
 
       const setCookies = res.headers["set-cookie"]?.join(";");
@@ -35,9 +35,10 @@ const loginToSAP = async () => {
       expiresAt = Date.now() + res.data.SessionTimeout * 60 * 1000;
 
     } catch (err) {
+      // @ts-ignore
+      const errorMessage = err?.response?.data?.error?.message || `${err?.name} - ${err?.message}`;
       return {
-        // @ts-ignore
-        error: `Could not login to SAP. ${err?.name} - ${err?.message}`,
+        error: `Could not login to SAP. ${errorMessage.trim()}`,
       };
     }
   }

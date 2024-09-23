@@ -13,13 +13,14 @@ const logoutFromSAP = async (cookies: string) => {
 
     if (res?.data?.error?.message)
       return {
-        error: `Could not logout from SAP. ${res.data.error.message}`,
+        error: `Could not logout from SAP. ${res.data.error.message.trim()}`,
       };
 
   } catch (err) {
+    // @ts-ignore
+    const errorMessage = err?.response?.data?.error?.message || `${err?.name} - ${err?.message}`;
     return {
-      // @ts-ignore
-      error: `Could not logout from SAP. ${err?.name} - ${err?.message}`,
+      error: `Could not login to SAP. ${errorMessage.trim()}`,
     };
   }
 
