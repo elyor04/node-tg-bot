@@ -1,9 +1,11 @@
 import { Telegraf } from "telegraf";
 import { message } from "telegraf/filters";
-import echoHandler from "./echo";
+import langHandler from "./lang";
+import phoneHandler from "./phone";
 
 const registerHandlers = (bot: Telegraf) => {
-  bot.on(message("text"), echoHandler);
+  bot.hears(["🇺🇿 O'zbek", "🇷🇺 Русский"], langHandler);
+  bot.on(message("contact"), phoneHandler);
 };
 
 export default registerHandlers;

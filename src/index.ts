@@ -2,11 +2,17 @@ import bot from "./bot";
 import shutdown from "./utils/shutdown";
 import logger from "./utils/logger";
 import loginToSAP from "./services/login";
+import sequelize from "./database/db";
 
 // Start the bot
 logger.info("Starting bot...");
 bot.launch().catch((err) => {
   logger.error(`${err?.name} - ${err?.message}`);
+});
+
+// Initialize database
+sequelize.sync({ alter: true }).then(() => {
+  logger.info("Sqlite db connected");
 });
 
 // Try logging into SAP
