@@ -10,7 +10,7 @@ const phoneHandler = async (ctx: Context) => {
     where: { id: ctx.from?.id },
   })) as User;
 
-  const lang = user?.lang || "uz";
+  const lang = user?.lang || "en";
 
   if (!user?.phone) {
     user.phone = message.contact.phone_number;

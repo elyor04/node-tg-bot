@@ -12,7 +12,7 @@ const phoneCommand = async (ctx: Context) => {
       id: ctx.from?.id,
     });
 
-  const lang = user?.lang || "uz";
+  const lang = user?.lang || "en";
 
   const keyboard = Markup.keyboard([
     [Markup.button.contactRequest(messages.shareNumber[lang])],

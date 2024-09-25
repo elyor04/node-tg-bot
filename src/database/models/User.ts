@@ -3,7 +3,7 @@ import sequelize from "../db";
 
 class User extends Model {
   public id!: number;
-  public lang!: "uz" | "ru";
+  public lang!: "uz" | "ru" | "en";
   public phone!: string;
 
   public readonly createdAt!: Date;
@@ -18,7 +18,7 @@ User.init(
       allowNull: false,
     },
     lang: {
-      type: DataTypes.ENUM("uz", "ru"),
+      type: DataTypes.ENUM("uz", "ru", "en"),
     },
     phone: {
       type: DataTypes.STRING,

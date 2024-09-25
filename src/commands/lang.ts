@@ -11,11 +11,15 @@ const langCommand = async (ctx: Context) => {
       id: ctx.from?.id,
     });
 
-  const keyboard = Markup.keyboard([["🇺🇿 O'zbek", "🇷🇺 Русский"]])
+  const keyboard = Markup.keyboard([
+    ["🇺🇿 O'zbek"],
+    ["🇷🇺 Русский"],
+    ["🇬🇧 English"],
+  ])
     .oneTime()
     .resize();
 
-  await ctx.reply("Tilni tanlang | Выберите язык", keyboard);
+  await ctx.reply("Tilni tanlang\n\nВыберите язык\n\nSelect language", keyboard);
 };
 
 export default langCommand;

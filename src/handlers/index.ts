@@ -4,7 +4,7 @@ import langHandler from "./lang";
 import phoneHandler from "./phone";
 
 const registerHandlers = (bot: Telegraf) => {
-  bot.hears(["🇺🇿 O'zbek", "🇷🇺 Русский"], langHandler);
+  bot.hears(["🇺🇿 O'zbek", "🇷🇺 Русский", "🇬🇧 English"], langHandler);
   bot.on(message("contact"), phoneHandler);
 };
 

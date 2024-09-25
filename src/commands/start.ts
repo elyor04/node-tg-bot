@@ -12,14 +12,18 @@ const startCommand = async (ctx: Context) => {
       id: ctx.from?.id,
     });
 
-  const lang = user?.lang || "uz";
+  const lang = user?.lang || "en";
 
   if (!user?.lang) {
-    const keyboard = Markup.keyboard([["🇺🇿 O'zbek", "🇷🇺 Русский"]])
+    const keyboard = Markup.keyboard([
+      ["🇺🇿 O'zbek"],
+      ["🇷🇺 Русский"],
+      ["🇬🇧 English"],
+    ])
       .oneTime()
       .resize();
 
-    await ctx.reply("Tilni tanlang | Выберите язык", keyboard);
+    await ctx.reply("Tilni tanlang\n\nВыберите язык\n\nSelect language", keyboard);
 
   } else if (!user?.phone) {
     const keyboard = Markup.keyboard([

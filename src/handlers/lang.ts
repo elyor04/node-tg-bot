@@ -10,10 +10,11 @@ const langHandler = async (ctx: Context) => {
     where: { id: ctx.from?.id },
   })) as User;
 
-  let lang: "uz" | "ru";
+  let lang: "uz" | "ru" | "en";
 
   if (message.text === "🇺🇿 O'zbek") lang = "uz";
-  else lang = "ru";
+  else if (message.text === "🇷🇺 Русский") lang = "ru";
+  else lang = "en";
 
   if (!user?.lang) {
     user.lang = lang;
