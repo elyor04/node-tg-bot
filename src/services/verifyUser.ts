@@ -12,7 +12,7 @@ const verifyUser = async (phone: string) => {
 
   try {
     const data = await axios
-      .get(`${SAP_BASE_URL}/ServiceLayer/b1s/v2/Logout`, {
+      .get(`${SAP_BASE_URL}/ServiceLayer/b1s/v2/EmployeesInfo`, {
         params: {
           $filter: `contains(OfficePhone, '${phone}') or contains(MobilePhone, '${phone}') or contains(HomePhone, '${phone}')`,
         },
