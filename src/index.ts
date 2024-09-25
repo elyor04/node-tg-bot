@@ -11,7 +11,7 @@ bot.launch().catch((err) => {
 });
 
 // Initialize database
-sequelize.sync({ alter: true }).then(() => {
+sequelize.sync({ force: false, alter: { drop: false } }).then(() => {
   logger.info("Sqlite db connected");
 });
 
