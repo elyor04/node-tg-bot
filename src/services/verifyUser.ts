@@ -14,11 +14,7 @@ const verifyUser = async (phone: string) => {
     const data = await axios
       .get(`${SAP_BASE_URL}/ServiceLayer/b1s/v2/Logout`, {
         params: {
-          $filter: `contains(OfficePhone, '${phone.slice(
-            -7
-          )}') or contains(MobilePhone, '${phone.slice(
-            -7
-          )}') or contains(HomePhone, '${phone.slice(-7)}')`,
+          $filter: `contains(OfficePhone, '${phone}') or contains(MobilePhone, '${phone}') or contains(HomePhone, '${phone}')`,
         },
         headers: {
           Cookie: loginResult.cookies,
