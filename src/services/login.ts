@@ -32,7 +32,7 @@ const loginToSAP = async () => {
 
       // @ts-ignore
       cookies = `B1SESSION=${B1SESSION[1]}; ROUTEID=${ROUTEID[1]}`;
-      expiresAt = Date.now() + res.data.SessionTimeout * 60 * 1000;
+      expiresAt = Date.now() + (res.data.SessionTimeout - 1) * 60 * 1000;
 
     } catch (err) {
       // @ts-ignore

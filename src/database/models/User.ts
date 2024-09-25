@@ -6,6 +6,14 @@ class User extends Model {
   public lang!: "uz" | "ru" | "en";
   public phone!: string;
 
+  public employeeID!: number | null;
+  public jobTitle!: string | null;
+  public employeeName!: {
+    first: string;
+    last: string;
+    middle: string;
+  } | null;
+
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -23,6 +31,15 @@ User.init(
     phone: {
       type: DataTypes.STRING,
       unique: true,
+    },
+    employeeID: {
+      type: DataTypes.INTEGER,
+    },
+    jobTitle: {
+      type: DataTypes.STRING,
+    },
+    employeeName: {
+      type: DataTypes.JSON,
     },
   },
   {

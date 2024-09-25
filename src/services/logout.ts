@@ -7,7 +7,9 @@ const logoutFromSAP = async (cookies: string) => {
       `${SAP_BASE_URL}/ServiceLayer/b1s/v2/Logout`,
       {},
       {
-        headers: { Cookie: cookies },
+        headers: {
+          Cookie: cookies,
+        },
       }
     );
 

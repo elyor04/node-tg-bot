@@ -34,6 +34,16 @@ const messages = {
     ru: "Номер телефона был изменен",
     en: "Phone number has been changed",
   },
+  verifySuccess: {
+    uz: "Foydalanuvchi tasdiqlandi",
+    ru: "Пользователь подтвержден",
+    en: "User has been verified",
+  },
+  verifyError: {
+    uz: "Foydalanuvchi tasdiqlanmadi",
+    ru: "Пользователь не подтвержден",
+    en: "User has not been verified",
+  },
 };
 
 export default messages;
