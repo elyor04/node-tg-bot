@@ -2,7 +2,7 @@ import { Context, Markup } from "telegraf";
 import User from "../database/models/User";
 
 const langCommand = async (ctx: Context) => {
-  let user = await User.findOne({
+  const user = await User.findOne({
     where: { id: ctx.from?.id },
   });
 
@@ -15,7 +15,7 @@ const langCommand = async (ctx: Context) => {
     .oneTime()
     .resize();
 
-  await ctx.reply("Tilni tanglang | Выберите язык", keyboard);
+  await ctx.reply("Tilni tanlang | Выберите язык", keyboard);
 };
 
 export default langCommand;

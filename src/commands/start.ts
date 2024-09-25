@@ -19,7 +19,7 @@ const startCommand = async (ctx: Context) => {
       .oneTime()
       .resize();
 
-    await ctx.reply("Tilni tanglang | Выберите язык", keyboard);
+    await ctx.reply("Tilni tanlang | Выберите язык", keyboard);
 
   } else if (!user?.phone) {
     const keyboard = Markup.keyboard([
