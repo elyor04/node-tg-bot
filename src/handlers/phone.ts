@@ -1,4 +1,4 @@
-import { Context, Markup } from "telegraf";
+import { Context } from "telegraf";
 import { Message } from "telegraf/types";
 import User from "../database/models/User";
 import messages from "../utils/messages";
