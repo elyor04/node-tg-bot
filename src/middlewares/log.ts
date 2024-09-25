@@ -1,8 +1,7 @@
 import { Context } from "telegraf";
-import NextFunction from "../types/nextFunction";
 import logger from "../utils/logger";
 
-const logMiddleware = async (ctx: Context, next: NextFunction) => {
+const logMiddleware = async (ctx: Context, next: () => Promise<void>) => {
   if (ctx.chat?.type !== "private") return;
 
   const user = ctx.from;
