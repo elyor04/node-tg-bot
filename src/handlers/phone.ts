@@ -1,6 +1,7 @@
 import { Context } from "telegraf";
 import { Message } from "telegraf/types";
 import User from "../database/models/User";
+import Employee from "../database/models/Employee";
 import messages from "../utils/messages";
 import verifyUser from "../services/verifyUser";
 import logger from "../utils/logger";
@@ -11,6 +12,10 @@ const phoneHandler = async (ctx: Context) => {
   const user = (await User.findOne({
     where: { id: ctx.from?.id },
   })) as User;
+
+  const employee = await Employee.findOne({
+    where: { userId: user.id },
+  });
 
   const lang = user?.lang || "en";
   const phoneExisted = !!user.phone;
@@ -28,23 +33,29 @@ const phoneHandler = async (ctx: Context) => {
   }
 
   if (!verifyResult?.data) {
-    if (phoneExisted) {
-      user.employeeID = null;
-      user.jobTitle = null;
-      user.employeeName = null;
-
-      await user.save();
+    if (employee) {
+      await employee.destroy();
     }
 
     await ctx.reply(messages.verifyError[lang]);
     return;
   }
 
-  user.employeeID = verifyResult.data.employeeID;
-  user.jobTitle = verifyResult.data.jobTitle;
-  user.employeeName = verifyResult.data.employeeName;
+  if (employee) {
+    employee.id = verifyResult.data.employeeID;
+    employee.jobTitle = verifyResult.data.jobTitle;
+    employee.name = verifyResult.data.employeeName;
+    await employee.save();
 
-  await user.save();
+  } else {
+    await Employee.create({
+      id: verifyResult.data.employeeID,
+      jobTitle: verifyResult.data.jobTitle,
+      name: verifyResult.data.employeeName,
+      userId: user.id,
+    });
+  }
+
   await ctx.reply(messages.verifySuccess[lang]);
 };
 
