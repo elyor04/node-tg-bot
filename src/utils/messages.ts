@@ -44,6 +44,56 @@ const messages = {
     ru: "Пользователь не подтвержден",
     en: "User has not been verified",
   },
+  purchasesService: {
+    uz: "Harid xizmatini tanlang",
+    ru: "Выберите услугу закупка",
+    en: "Select a purchase service",
+  },
+  paymentsService: {
+    uz: "To'lov xizmatini tanlang",
+    ru: "Выберите услугу платеж",
+    en: "Select a payment service",
+  },
+  addPurchase: {
+    uz: "Harid yaratish",
+    ru: "Добавить заказ на закупку",
+    en: "Add a purchase",
+  },
+  ordersInProgress: {
+    uz: "Jarayondagi buyurtmalar",
+    ru: "Необработанные",
+    en: "Orders in progress",
+  },
+  confirmedOrders: {
+    uz: "Tasdiqlangan buyurtmalar",
+    ru: "Подтвержденные",
+    en: "Confirmed orders",
+  },
+  ordersOnWay: {
+    uz: "Yo'ldagi buyurtmalar",
+    ru: "В пути",
+    en: "Orders on the way",
+  },
+  completedPurchases: {
+    uz: "Tugalangan haridlar",
+    ru: "Завершение закупки",
+    en: "Completed purchases",
+  },
+  inDebt: {
+    uz: "Qarzdorlik",
+    ru: "Долг",
+    en: "In debt",
+  },
+  addOutgoingPayments: {
+    uz: "Chiqim to'lov yaratish",
+    ru: "Добавить исходящие платежи",
+    en: "Add outgoing payments",
+  },
+  reviseAct: {
+    uz: "Akt sverka",
+    ru: "Акт сверка",
+    en: "Revise act",
+  },
 };
 
 export default messages;
