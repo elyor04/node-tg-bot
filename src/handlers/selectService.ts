@@ -19,25 +19,25 @@ const purchasesHandler = async (ctx: Context) => {
     [
       Markup.button.callback(
         messages.ordersInProgress[lang],
-        "payments:ordersInProgress"
+        "purchases:ordersInProgress"
       ),
     ],
     [
       Markup.button.callback(
         messages.confirmedOrders[lang],
-        "payments:confirmedOrders"
+        "purchases:confirmedOrders"
       ),
     ],
     [
       Markup.button.callback(
         messages.ordersOnWay[lang],
-        "payments:ordersOnWay"
+        "purchases:ordersOnWay"
       ),
     ],
     [
       Markup.button.callback(
         messages.completedPurchases[lang],
-        "payments:completedPurchases"
+        "purchases:completedPurchases"
       ),
     ],
   ]);
@@ -56,13 +56,13 @@ const paymentsHandler = async (ctx: Context) => {
     [
       Markup.button.callback(
         messages.inDebt[lang],
-        "purchases:inDebt"
+        "payments:inDebt"
       )
     ],
     [
       Markup.button.callback(
-        messages.addOutgoingPayments[lang],
-        "payments:addOutgoingPayments"
+        messages.addOutgoingPayment[lang],
+        "payments:addOutgoingPayment"
       ),
     ],
     [

@@ -36,7 +36,6 @@ const phoneHandler = async (ctx: Context) => {
     if (employee) {
       await employee.destroy();
     }
-
     await ctx.reply(messages.verifyError[lang]);
     return;
   }

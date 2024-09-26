@@ -84,10 +84,10 @@ const messages = {
     ru: "Долг",
     en: "In debt",
   },
-  addOutgoingPayments: {
+  addOutgoingPayment: {
     uz: "Chiqim to'lov yaratish",
     ru: "Добавить исходящие платежи",
-    en: "Add outgoing payments",
+    en: "Add outgoing payment",
   },
   reviseAct: {
     uz: "Akt sverka",
