@@ -42,7 +42,7 @@ const purchasesHandler = async (ctx: Context) => {
     ],
   ]);
 
-  await ctx.reply(messages.purchasesService[lang], keyboard);
+  await ctx.reply(messages.purchaseService[lang], keyboard);
 };
 
 const paymentsHandler = async (ctx: Context) => {
@@ -73,7 +73,7 @@ const paymentsHandler = async (ctx: Context) => {
     ],
   ]);
 
-  await ctx.reply(messages.paymentsService[lang], keyboard);
+  await ctx.reply(messages.paymentService[lang], keyboard);
 };
 
 export { purchasesHandler, paymentsHandler };

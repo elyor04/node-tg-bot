@@ -44,12 +44,12 @@ const messages = {
     ru: "Пользователь не подтвержден",
     en: "User has not been verified",
   },
-  purchasesService: {
+  purchaseService: {
     uz: "Harid xizmatini tanlang",
-    ru: "Выберите услугу закупка",
+    ru: "Выберите услугу покупки",
     en: "Select a purchase service",
   },
-  paymentsService: {
+  paymentService: {
     uz: "To'lov xizmatini tanlang",
     ru: "Выберите услугу платеж",
     en: "Select a payment service",
