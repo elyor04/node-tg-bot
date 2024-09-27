@@ -1,4 +1,4 @@
-import { Context } from "telegraf";
+import Context from "../types/context";
 import logger from "../utils/logger";
 
 const logMiddleware = async (ctx: Context, next: () => Promise<void>) => {

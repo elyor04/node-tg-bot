@@ -1,5 +1,5 @@
-import { Context } from "telegraf";
 import { Message } from "telegraf/types";
+import Context from "../types/context";
 import User from "../database/models/User";
 import Employee from "../database/models/Employee";
 import messages from "../utils/messages";
@@ -9,10 +9,7 @@ import logger from "../utils/logger";
 const phoneHandler = async (ctx: Context) => {
   const message = ctx.message as Message.ContactMessage;
 
-  const user = (await User.findOne({
-    where: { id: ctx.from?.id },
-  })) as User;
-
+  const user = ctx.user as User;
   const employee = await Employee.findOne({
     where: { userId: user.id },
   });

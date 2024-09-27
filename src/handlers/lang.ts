@@ -1,15 +1,13 @@
-import { Context, Markup } from "telegraf";
+import { Markup } from "telegraf";
 import { Message } from "telegraf/types";
+import Context from "../types/context";
 import User from "../database/models/User";
 import messages from "../utils/messages";
 
 const langHandler = async (ctx: Context) => {
   const message = ctx.message as Message.TextMessage;
 
-  const user = (await User.findOne({
-    where: { id: ctx.from?.id },
-  })) as User;
-
+  const user = ctx.user as User;
   let lang: "uz" | "ru" | "en";
 
   if (message.text === "🇺🇿 O'zbek") lang = "uz";

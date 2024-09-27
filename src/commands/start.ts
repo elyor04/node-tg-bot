@@ -1,4 +1,5 @@
-import { Context, Markup } from "telegraf";
+import { Markup } from "telegraf";
+import Context from "../types/context";
 import User from "../database/models/User";
 import Employee from "../database/models/Employee";
 import messages from "../utils/messages";
@@ -6,25 +7,20 @@ import verifyUser from "../services/verifyUser";
 import logger from "../utils/logger";
 
 const startCommand = async (ctx: Context) => {
-  let user = await User.findOne({
-    where: { id: ctx.from?.id },
-  });
-
-  if (!user)
-    user = await User.create({
+  if (!ctx.user)
+    ctx.user = await User.create({
       id: ctx.from?.id,
     });
 
   const employee = await Employee.findOne({
-    where: { userId: user.id },
+    where: { userId: ctx.user.id },
   });
 
-  const lang = user?.lang || "en";
+  const lang = ctx.user?.lang || "en";
 
-  if (!user.lang) {
+  if (!ctx.user.lang) {
     const keyboard = Markup.keyboard([
-      ["🇺🇿 O'zbek"],
-      ["🇷🇺 Русский"],
+      ["🇺🇿 O'zbek", "🇷🇺 Русский"],
       ["🇬🇧 English"],
     ])
       .oneTime()
@@ -35,7 +31,7 @@ const startCommand = async (ctx: Context) => {
       keyboard
     );
 
-  } else if (!user.phone) {
+  } else if (!ctx.user.phone) {
     const keyboard = Markup.keyboard([
       [Markup.button.contactRequest(messages.shareNumber[lang])],
     ])
@@ -45,7 +41,7 @@ const startCommand = async (ctx: Context) => {
     await ctx.reply(messages.authorization[lang], keyboard);
 
   } else if (!employee) {
-    const verifyResult = await verifyUser(user.phone);
+    const verifyResult = await verifyUser(ctx.user.phone);
 
     if (verifyResult?.error) {
       logger.error(verifyResult.error);
@@ -62,28 +58,13 @@ const startCommand = async (ctx: Context) => {
       id: verifyResult.data.employeeID,
       jobTitle: verifyResult.data.jobTitle,
       name: verifyResult.data.employeeName,
-      userId: user.id,
+      userId: ctx.user.id,
     });
 
     await ctx.reply(messages.verifySuccess[lang]);
 
   } else {
-    const keyboard = Markup.inlineKeyboard([
-      [
-        Markup.button.callback(
-          messages.purchases[lang],
-          "selectService:purchases"
-        ),
-      ],
-      [
-        Markup.button.callback(
-          messages.payments[lang],
-          "selectService:payments"
-        ),
-      ],
-    ]);
-
-    await ctx.reply(messages.selectService[lang], keyboard);
+    await ctx.scene.enter("mainMenu");
   }
 };
 

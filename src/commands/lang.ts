@@ -1,19 +1,15 @@
-import { Context, Markup } from "telegraf";
+import { Markup } from "telegraf";
+import Context from "../types/context";
 import User from "../database/models/User";
 
 const langCommand = async (ctx: Context) => {
-  const user = await User.findOne({
-    where: { id: ctx.from?.id },
-  });
-
-  if (!user)
+  if (!ctx.user)
     await User.create({
       id: ctx.from?.id,
     });
 
   const keyboard = Markup.keyboard([
-    ["🇺🇿 O'zbek"],
-    ["🇷🇺 Русский"],
+    ["🇺🇿 O'zbek", "🇷🇺 Русский"],
     ["🇬🇧 English"],
   ])
     .oneTime()

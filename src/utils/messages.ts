@@ -9,7 +9,7 @@ const messages = {
     ru: "Поделить номер",
     en: "Share number",
   },
-  selectService: {
+  mainMenu: {
     uz: "Xizmatni tanlang",
     ru: "Выберите услугу",
     en: "Select a service",
@@ -44,12 +44,12 @@ const messages = {
     ru: "Пользователь не подтвержден",
     en: "User has not been verified",
   },
-  purchaseService: {
+  purchaseMenu: {
     uz: "Harid xizmatini tanlang",
     ru: "Выберите услугу покупки",
     en: "Select a purchase service",
   },
-  paymentService: {
+  paymentMenu: {
     uz: "To'lov xizmatini tanlang",
     ru: "Выберите услугу платеж",
     en: "Select a payment service",
@@ -93,6 +93,11 @@ const messages = {
     uz: "Akt sverka",
     ru: "Акт сверка",
     en: "Revise act",
+  },
+  backButton: {
+    uz: "🔙 Orqaga",
+    ru: "🔙 Назад",
+    en: "🔙 Back",
   },
 };
 
