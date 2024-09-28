@@ -1,17 +1,11 @@
 import { Markup } from "telegraf";
 import Context from "../types/context";
-import User from "../database/models/User";
 import Employee from "../database/models/Employee";
 import messages from "../utils/messages";
 import verifyUser from "../services/verifyUser";
 import logger from "../utils/logger";
 
 const startCommand = async (ctx: Context) => {
-  if (!ctx.user)
-    ctx.user = await User.create({
-      id: ctx.from?.id,
-    });
-
   const employee = await Employee.findOne({
     where: { userId: ctx.user.id },
   });

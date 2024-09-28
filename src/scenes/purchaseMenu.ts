@@ -20,7 +20,9 @@ purchaseMenuScene.enter(async (ctx) => {
 
 purchaseMenuScene.hears(
   [messages.addPurchase.uz, messages.addPurchase.ru, messages.addPurchase.en],
-  async (ctx) => {}
+  async (ctx) => {
+    await ctx.scene.enter("addProduct");
+  }
 );
 
 purchaseMenuScene.hears(

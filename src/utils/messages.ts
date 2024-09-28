@@ -99,6 +99,88 @@ const messages = {
     ru: "🔙 Назад",
     en: "🔙 Back",
   },
+  selectProduct: {
+    uz: "Maxsulot tanglang",
+    ru: "Выберите товар",
+    en: "Select a product",
+  },
+  enterQuantity: {
+    uz: "Kerakli miqdorni yozing",
+    ru: "Введите количество",
+    en: "Enter quantity",
+  },
+  leaveComment: {
+    uz: "Izoh qoldiring",
+    ru: "Введите комментарий",
+    en: "Leave a comment",
+  },
+  ordersSummary: {
+    uz: (products: [{ name: string; quantity: number }], comment: string) => {
+      let text = "Kiritgan ma'lumotlaringiz to'g'rimi?\n\n";
+
+      for (const [i, product] of products.entries()) {
+        text += `${i + 1} - maxsulot: ${product.name}\n`;
+        text += `Miqdori: ${product.quantity}\n\n`;
+      }
+
+      return text + `Izoh: ${comment}`;
+    },
+    ru: (products: [{ name: string; quantity: number }], comment: string) => {
+      let text = "Вы правильно ввели данные?\n\n";
+
+      for (const [i, product] of products.entries()) {
+        text += `${i + 1} - продукт: ${product.name}\n`;
+        text += `Количество: ${product.quantity}\n\n`;
+      }
+
+      return text + `Коментарий: ${comment}`;
+    },
+    en: (products: [{ name: string; quantity: number }], comment: string) => {
+      let text = "Is the information you entered correct?\n\n";
+
+      for (const [i, product] of products.entries()) {
+        text += `${i + 1} - product: ${product.name}\n`;
+        text += `Quantity: ${product.quantity}\n\n`;
+      }
+
+      return text + `Comment: ${comment}`;
+    },
+  },
+  yesButton: {
+    uz: "На",
+    ru: "Да",
+    en: "Yes",
+  },
+  noButton: {
+    uz: "Yo'q",
+    ru: "Нет",
+    en: "No",
+  },
+  editButton: {
+    uz: "O'zgartirish",
+    ru: "Изменить",
+    en: "Edit",
+  },
+  noProductsFound: {
+    uz: "Hech qanday mahsulot topilmadi",
+    ru: "Продуктов не найдено",
+    en: "No products found",
+  },
+  commentButton: {
+    uz: "Izoh",
+    ru: "Комментарий",
+    en: "Continue",
+  },
+  processCancelled: {
+    uz: "Jarayon bekor qilindi",
+    ru: "Процесс был отменен",
+    en: "Process has been cancelled",
+  },
+  productAdded: {
+    uz: "Mahsulot qo'shildi",
+    ru: "Продукт был добавлен",
+    en: "Product has been added",
+  },
 };
 
 export default messages;

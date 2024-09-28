@@ -15,6 +15,7 @@ const verifyUser = async (phone: string) => {
       .get(`${SAP_BASE_URL}/ServiceLayer/b1s/v2/EmployeesInfo`, {
         params: {
           $filter: `contains(OfficePhone, '${phone}') or contains(MobilePhone, '${phone}') or contains(HomePhone, '${phone}')`,
+          $select: "EmployeeID, JobTitle, FirstName, LastName, MiddleName",
         },
         headers: {
           Cookie: loginResult.cookies,
