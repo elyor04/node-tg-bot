@@ -4,13 +4,13 @@ import Context from "./types/context";
 import registerMiddlewares from "./middlewares";
 import registerCommands from "./commands";
 import registerHandlers from "./handlers";
-import registerScenes from "./scenes";
+import stage from "./scenes";
 
 const bot = new Telegraf<Context>(BOT_TOKEN);
 
 registerMiddlewares(bot);
-registerScenes(bot);
-registerCommands(bot);
-registerHandlers(bot);
+registerCommands(stage);
+registerHandlers(stage);
+bot.use(stage.middleware());
 
 export default bot;
