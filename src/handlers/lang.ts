@@ -12,10 +12,11 @@ const langHandler = async (ctx: Context) => {
   else if (message.text === "🇷🇺 Русский") lang = "ru";
   else lang = "en";
 
-  if (!ctx.user?.lang) {
-    ctx.user.lang = lang;
-    await ctx.user.save();
+  const langExisted = !!ctx.user.lang;
+  ctx.user.lang = lang;
+  await ctx.user.save();
 
+  if (!langExisted) {
     const keyboard = Markup.keyboard([
       [Markup.button.contactRequest(messages.shareNumber[lang])],
     ])
@@ -25,9 +26,6 @@ const langHandler = async (ctx: Context) => {
     await ctx.reply(messages.authorization[lang], keyboard);
 
   } else {
-    ctx.user.lang = lang;
-    await ctx.user.save();
-
     await ctx.reply(messages.languageChanged[lang]);
   }
 };
