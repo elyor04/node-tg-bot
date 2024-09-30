@@ -2,8 +2,6 @@ import Context from "../types/context";
 import logger from "../utils/logger";
 
 const logMiddleware = async (ctx: Context, next: () => Promise<void>) => {
-  if (ctx.chat?.type !== "private") return;
-
   const user = ctx.from;
   const user_id = user?.id;
   const full_name = `${user?.first_name || ""} ${user?.last_name || ""}`.trim();

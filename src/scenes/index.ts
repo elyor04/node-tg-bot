@@ -3,7 +3,8 @@ import Context from "../types/context";
 import mainMenuScene from "./mainMenu";
 import purchaseMenuScene from "./purchaseMenu";
 import paymentMenuScene from "./paymentMenu";
-import { addProductScene, addPurchaseScene } from "./addPurchase";
+import addPurchaseScene from "./addPurchase";
+import addProductScene from "./addProduct";
 import messages from "../utils/messages";
 
 const stage = new Scenes.Stage<Context>([

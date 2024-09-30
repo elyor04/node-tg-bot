@@ -104,6 +104,11 @@ const messages = {
     ru: "Выберите товар",
     en: "Select a product",
   },
+  selectProductFirst: {
+    uz: "Avval maxsulot tanglang",
+    ru: "Сначала выберите товар",
+    en: "Select a product first",
+  },
   enterQuantity: {
     uz: "Kerakli miqdorni yozing",
     ru: "Введите количество",
@@ -177,9 +182,9 @@ const messages = {
     en: "Process has been cancelled",
   },
   productAdded: {
-    uz: "Mahsulot qo'shildi",
-    ru: "Продукт был добавлен",
-    en: "Product has been added",
+    uz: "Mahsulot qo'shildi. Yana bir nechta mahsulot qo'shing yoki «Izoh» tugmasini bosing",
+    ru: "Продукт был добавлен. Добавьте еще несколько продуктов или нажмите «Комментарий»",
+    en: "Product has been added. Add more products or click «Comment»",
   },
 };
 

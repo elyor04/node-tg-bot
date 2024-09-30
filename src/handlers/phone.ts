@@ -1,6 +1,5 @@
 import { Message } from "telegraf/types";
 import Context from "../types/context";
-import User from "../database/models/User";
 import Employee from "../database/models/Employee";
 import messages from "../utils/messages";
 import verifyUser from "../services/verifyUser";
@@ -9,19 +8,18 @@ import logger from "../utils/logger";
 const phoneHandler = async (ctx: Context) => {
   const message = ctx.message as Message.ContactMessage;
 
-  const user = ctx.user as User;
   const employee = await Employee.findOne({
-    where: { userId: user.id },
+    where: { userId: ctx.user.id },
   });
 
-  const lang = user?.lang || "en";
-  const phoneExisted = !!user.phone;
+  const lang = ctx.user?.lang || "en";
+  const phoneExisted = !!ctx.user.phone;
 
-  user.phone = message.contact.phone_number;
-  await user.save();
+  ctx.user.phone = message.contact.phone_number;
+  await ctx.user.save();
 
   if (phoneExisted) await ctx.reply(messages.phoneChanged[lang]);
-  const verifyResult = await verifyUser(user.phone);
+  const verifyResult = await verifyUser(ctx.user.phone);
 
   if (verifyResult?.error) {
     logger.error(verifyResult.error);
@@ -48,7 +46,7 @@ const phoneHandler = async (ctx: Context) => {
       id: verifyResult.data.employeeID,
       jobTitle: verifyResult.data.jobTitle,
       name: verifyResult.data.employeeName,
-      userId: user.id,
+      userId: ctx.user.id,
     });
   }
 
