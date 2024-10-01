@@ -120,7 +120,7 @@ const messages = {
     en: "Leave a comment",
   },
   ordersSummary: {
-    uz: (products: [{ name: string; quantity: number }], comment: string) => {
+    uz: (products: [{ name: string; quantity: string }], comment: string) => {
       let text = "Kiritgan ma'lumotlaringiz to'g'rimi?\n\n";
 
       for (const [i, product] of products.entries()) {
@@ -130,7 +130,7 @@ const messages = {
 
       return text + `Izoh: ${comment}`;
     },
-    ru: (products: [{ name: string; quantity: number }], comment: string) => {
+    ru: (products: [{ name: string; quantity: string }], comment: string) => {
       let text = "Вы правильно ввели данные?\n\n";
 
       for (const [i, product] of products.entries()) {
@@ -140,7 +140,7 @@ const messages = {
 
       return text + `Коментарий: ${comment}`;
     },
-    en: (products: [{ name: string; quantity: number }], comment: string) => {
+    en: (products: [{ name: string; quantity: string }], comment: string) => {
       let text = "Is the information you entered correct?\n\n";
 
       for (const [i, product] of products.entries()) {

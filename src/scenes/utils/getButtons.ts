@@ -1,6 +1,6 @@
 import { Markup } from "telegraf";
 import chunkArray from "./chunkArray";
-import Item from "../types/item";
+import Item from "../../types/item";
 
 const getButtons = (data: Item[], prevButton = false) => {
   let nextButton = false;

@@ -19,10 +19,12 @@ const phoneHandler = async (ctx: Context) => {
   await ctx.user.save();
 
   if (phoneExisted) await ctx.reply(messages.phoneChanged[lang]);
+  const messageId = (await ctx.reply("⏳")).message_id;
   const verifyResult = await verifyUser(ctx.user.phone);
 
   if (verifyResult?.error) {
     logger.error(verifyResult.error);
+    await ctx.deleteMessage(messageId);
     await ctx.reply(verifyResult.error);
     return;
   }
@@ -31,6 +33,7 @@ const phoneHandler = async (ctx: Context) => {
     if (employee) {
       await employee.destroy();
     }
+    await ctx.deleteMessage(messageId);
     await ctx.reply(messages.verifyError[lang]);
     return;
   }
@@ -50,6 +53,7 @@ const phoneHandler = async (ctx: Context) => {
     });
   }
 
+  await ctx.deleteMessage(messageId);
   await ctx.reply(messages.verifySuccess[lang]);
 };
 

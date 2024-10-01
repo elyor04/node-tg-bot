@@ -1,21 +1,8 @@
 import { Scenes } from "telegraf";
+import AddPurchaseData from "./addPurchaseData";
 
 interface SessionData extends Scenes.WizardSessionData {
-  addPurchase: {
-    skip: number;
-    order: {
-      name: string;
-      code: string;
-    };
-    orders: [
-      {
-        name: string;
-        code: string;
-        quantity: string;
-      }
-    ];
-    comment: string;
-  };
+  addPurchase: AddPurchaseData;
 }
 
 export default SessionData;

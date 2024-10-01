@@ -5,7 +5,8 @@ import Context from "../types/context";
 import messages from "../utils/messages";
 import getItems from "../services/getItems";
 import logger from "../utils/logger";
-import getButtons from "../utils/getButtons";
+import getButtons from "./utils/getButtons";
+import addPurchaseData from "./utils/addPurchaseData";
 
 const addProductScene = new Scenes.BaseScene<Context>("addProduct");
 
@@ -99,9 +100,7 @@ addProductScene.hears(
     messages.commentButton.en,
   ],
   async (ctx) => {
-    const lang = ctx.user?.lang || "en";
-
-    await ctx.reply(messages.leaveComment[lang]);
+    addPurchaseData.set(ctx.scene.session.addPurchase);
     await ctx.scene.enter("addPurchase");
   }
 );

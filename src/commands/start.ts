@@ -35,15 +35,18 @@ const startCommand = async (ctx: Context) => {
     await ctx.reply(messages.authorization[lang], keyboard);
 
   } else if (!employee) {
+    const messageId = (await ctx.reply("⏳")).message_id;
     const verifyResult = await verifyUser(ctx.user.phone);
 
     if (verifyResult?.error) {
       logger.error(verifyResult.error);
+      await ctx.deleteMessage(messageId);
       await ctx.reply(verifyResult.error);
       return;
     }
 
     if (!verifyResult?.data) {
+      await ctx.deleteMessage(messageId);
       await ctx.reply(messages.verifyError[lang]);
       return;
     }
@@ -55,6 +58,7 @@ const startCommand = async (ctx: Context) => {
       userId: ctx.user.id,
     });
 
+    await ctx.deleteMessage(messageId);
     await ctx.reply(messages.verifySuccess[lang]);
 
   } else {
