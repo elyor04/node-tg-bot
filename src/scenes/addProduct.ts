@@ -18,16 +18,19 @@ addProductScene.enter(async (ctx) => {
     skip: 0,
   };
 
+  const messageId = (await ctx.reply("⏳")).message_id;
   const result = await getItems(11, 0);
 
   if (result?.error) {
     logger.error(result.error);
+    await ctx.deleteMessage(messageId);
     await ctx.reply(result.error);
     await ctx.scene.leave();
     return;
   }
 
   if (!result?.data) {
+    await ctx.deleteMessage(messageId);
     await ctx.reply(messages.noProductsFound[lang]);
     await ctx.scene.leave();
     return;
@@ -38,6 +41,7 @@ addProductScene.enter(async (ctx) => {
   //   .oneTime()
   //   .resize();
 
+  await ctx.deleteMessage(messageId);
   await ctx.reply(messages.selectProduct[lang], Markup.inlineKeyboard(buttons));
   // await ctx.reply("", keyboard);
 });
