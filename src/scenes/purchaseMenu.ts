@@ -91,12 +91,12 @@ purchaseMenuScene.hears(
       return;
     }
 
-    const quotations = result.data.map((quotation) => {
+    const orders = result.data.map((quotation) => {
       return `CardCode: ${quotation.cardCode}\nDocStatus: ${quotation.docStatus}`;
     });
 
     await ctx.deleteMessage(messageId);
-    await ctx.reply(quotations.join("\n\n"));
+    await ctx.reply(orders.join("\n\n"));
   }
 );
 
