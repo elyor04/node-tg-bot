@@ -196,6 +196,31 @@ const messages = {
     ru: "Выберите период",
     en: "Select a period",
   },
+  oneDay: {
+    uz: "Bir kunlik",
+    ru: "За один день",
+    en: "One day",
+  },
+  oneWeek: {
+    uz: "Bir haftalik",
+    ru: "За неделю",
+    en: "One week",
+  },
+  oneMonth: {
+    uz: "Bir oylik",
+    ru: "За месяц",
+    en: "One month",
+  },
+  allTime: {
+    uz: "Hamma vaqt davomida",
+    ru: "За все время",
+    en: "All time",
+  },
+  noPurchasesFound: {
+    uz: "Hech qanday harid topilmadi",
+    ru: "Закупки не найдены",
+    en: "No purchases found",
+  },
 };
 
 export default messages;

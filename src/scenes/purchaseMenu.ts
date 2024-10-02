@@ -139,7 +139,9 @@ purchaseMenuScene.hears(
     messages.completedPurchases.ru,
     messages.completedPurchases.en,
   ],
-  async (ctx) => {}
+  async (ctx) => {
+    await ctx.scene.enter("completedPurchases");
+  }
 );
 
 purchaseMenuScene.hears(
