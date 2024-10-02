@@ -1,8 +1,21 @@
 import axios from "axios";
 import { SAP_BASE_URL } from "../utils/config";
 import loginToSAP from "./login";
+import Quotation from "../types/quotation";
 
-const getQuotations = async (top: number = 0, skip: number = 0) => {
+const getQuotations = async (
+  top: number = 100,
+  skip: number = 0
+): Promise<
+  | {
+      error: string;
+      data?: undefined;
+    }
+  | {
+      data: Quotation[] | null;
+      error?: undefined;
+    }
+> => {
   const loginResult = await loginToSAP();
 
   if (loginResult?.error)

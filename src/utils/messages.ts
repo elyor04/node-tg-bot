@@ -186,6 +186,11 @@ const messages = {
     ru: "Продукт был добавлен. Добавьте еще несколько продуктов или нажмите «Комментарий»",
     en: "Product has been added. Add more products or click «Comment»",
   },
+  noOrdersFound: {
+    uz: "Hech qanday buyurtma topilmadi",
+    ru: "Заказы не найдены",
+    en: "No orders found",
+  },
 };
 
 export default messages;

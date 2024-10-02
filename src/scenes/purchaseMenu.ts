@@ -1,6 +1,9 @@
 import { Scenes, Markup } from "telegraf";
 import Context from "../types/context";
 import messages from "../utils/messages";
+import getQuotations from "../services/getQuotations";
+import logger from "../utils/logger";
+import getOrders from "../services/getOrders";
 
 const purchaseMenuScene = new Scenes.BaseScene<Context>("purchaseMenu");
 
@@ -31,7 +34,34 @@ purchaseMenuScene.hears(
     messages.ordersInProgress.ru,
     messages.ordersInProgress.en,
   ],
-  async (ctx) => {}
+  async (ctx) => {
+    const lang = ctx.user?.lang || "en";
+
+    const messageId = (await ctx.reply("⏳")).message_id;
+    const result = await getQuotations();
+
+    if (result?.error) {
+      logger.error(result.error);
+      await ctx.deleteMessage(messageId);
+      await ctx.reply(result.error);
+      await ctx.scene.leave();
+      return;
+    }
+
+    if (!result?.data) {
+      await ctx.deleteMessage(messageId);
+      await ctx.reply(messages.noOrdersFound[lang]);
+      await ctx.scene.leave();
+      return;
+    }
+
+    const quotations = result.data.map((quotation) => {
+      return `CardName: ${quotation.cardName}\nDocStatus: ${quotation.docStatus}`;
+    });
+
+    await ctx.deleteMessage(messageId);
+    await ctx.reply(quotations.join("\n\n"));
+  }
 );
 
 purchaseMenuScene.hears(
@@ -40,7 +70,34 @@ purchaseMenuScene.hears(
     messages.confirmedOrders.ru,
     messages.confirmedOrders.en,
   ],
-  async (ctx) => {}
+  async (ctx) => {
+    const lang = ctx.user?.lang || "en";
+
+    const messageId = (await ctx.reply("⏳")).message_id;
+    const result = await getOrders();
+
+    if (result?.error) {
+      logger.error(result.error);
+      await ctx.deleteMessage(messageId);
+      await ctx.reply(result.error);
+      await ctx.scene.leave();
+      return;
+    }
+
+    if (!result?.data) {
+      await ctx.deleteMessage(messageId);
+      await ctx.reply(messages.noOrdersFound[lang]);
+      await ctx.scene.leave();
+      return;
+    }
+
+    const quotations = result.data.map((quotation) => {
+      return `CardCode: ${quotation.cardCode}\nDocStatus: ${quotation.docStatus}`;
+    });
+
+    await ctx.deleteMessage(messageId);
+    await ctx.reply(quotations.join("\n\n"));
+  }
 );
 
 purchaseMenuScene.hears(

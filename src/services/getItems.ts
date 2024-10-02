@@ -4,7 +4,7 @@ import loginToSAP from "./login";
 import Item from "../types/item";
 
 const getItems = async (
-  top: number = 0,
+  top: number = 100,
   skip: number = 0
 ): Promise<
   | {

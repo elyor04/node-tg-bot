@@ -1,8 +1,21 @@
 import axios from "axios";
 import { SAP_BASE_URL } from "../utils/config";
 import loginToSAP from "./login";
+import Order from "../types/order";
 
-const getOrders = async (top: number = 0, skip: number = 0) => {
+const getOrders = async (
+  top: number = 100,
+  skip: number = 0
+): Promise<
+  | {
+      error: string;
+      data?: undefined;
+    }
+  | {
+      data: Order[] | null;
+      error?: undefined;
+    }
+> => {
   const loginResult = await loginToSAP();
 
   if (loginResult?.error)
