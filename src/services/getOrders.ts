@@ -1,21 +1,8 @@
 import axios from "axios";
 import { SAP_BASE_URL } from "../utils/config";
 import loginToSAP from "./login";
-import Item from "../types/item";
 
-const getItems = async (
-  top: number = 0,
-  skip: number = 0
-): Promise<
-  | {
-      error: string;
-      data?: undefined;
-    }
-  | {
-      data: Item[] | null;
-      error?: undefined;
-    }
-> => {
+const getOrders = async (top: number = 0, skip: number = 0) => {
   const loginResult = await loginToSAP();
 
   if (loginResult?.error)
@@ -25,11 +12,12 @@ const getItems = async (
 
   try {
     const data = await axios
-      .get(`${SAP_BASE_URL}/ServiceLayer/b1s/v2/Items`, {
+      .get(`${SAP_BASE_URL}/ServiceLayer/b1s/v2/Orders`, {
         params: {
           $top: top,
           $skip: skip,
-          $select: "ItemName, ItemCode",
+          $select: "CardCode, DocumentStatus",
+          $filter: "Cancelled eq 'tNO'",
         },
         headers: {
           Cookie: loginResult.cookies,
@@ -39,15 +27,15 @@ const getItems = async (
 
     if (data?.error?.message)
       return {
-        error: `Could not get items. ${data.error.message.trim()}`,
+        error: `Could not get orders. ${data.error.message.trim()}`,
       };
 
     if (data?.value?.length)
       return {
         data: data.value.map((item: any) => {
           return {
-            itemName: item.ItemName,
-            itemCode: item.ItemCode,
+            cardCode: item.CardCode,
+            docStatus: item.DocumentStatus,
           };
         }),
       };
@@ -56,7 +44,7 @@ const getItems = async (
     // @ts-ignore
     const errorMessage = err?.response?.data?.error?.message || `${err?.name} - ${err?.message}`;
     return {
-      error: `Could not get items. ${errorMessage.trim()}`,
+      error: `Could not get orders. ${errorMessage.trim()}`,
     };
   }
 
@@ -65,4 +53,4 @@ const getItems = async (
   };
 };
 
-export default getItems;
+export default getOrders;

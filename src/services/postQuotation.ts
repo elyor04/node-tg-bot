@@ -32,7 +32,7 @@ const postQuotation = async () => {
     // @ts-ignore
     const errorMessage = err?.response?.data?.error?.message || `${err?.name} - ${err?.message}`;
     return {
-      error: `Could not get items. ${errorMessage.trim()}`,
+      error: `Could not post quotation. ${errorMessage.trim()}`,
     };
   }
 
