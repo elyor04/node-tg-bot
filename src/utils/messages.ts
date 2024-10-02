@@ -191,6 +191,11 @@ const messages = {
     ru: "Заказы не найдены",
     en: "No orders found",
   },
+  selectPeriod: {
+    uz: "Vaqt kesimini tanglang",
+    ru: "Выберите период",
+    en: "Select a period",
+  },
 };
 
 export default messages;

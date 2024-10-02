@@ -4,6 +4,7 @@ import messages from "../utils/messages";
 import getQuotations from "../services/getQuotations";
 import logger from "../utils/logger";
 import getOrders from "../services/getOrders";
+import getDeliveryNotes from "../services/getDeliveryNotes";
 
 const purchaseMenuScene = new Scenes.BaseScene<Context>("purchaseMenu");
 
@@ -55,12 +56,12 @@ purchaseMenuScene.hears(
       return;
     }
 
-    const quotations = result.data.map((quotation) => {
-      return `CardName: ${quotation.cardName}\nDocStatus: ${quotation.docStatus}`;
+    const orders = result.data.map((order) => {
+      return `CardName: ${order.cardName}\nDocStatus: ${order.docStatus}`;
     });
 
     await ctx.deleteMessage(messageId);
-    await ctx.reply(quotations.join("\n\n"));
+    await ctx.reply(orders.join("\n\n"));
   }
 );
 
@@ -91,8 +92,8 @@ purchaseMenuScene.hears(
       return;
     }
 
-    const orders = result.data.map((quotation) => {
-      return `CardCode: ${quotation.cardCode}\nDocStatus: ${quotation.docStatus}`;
+    const orders = result.data.map((order) => {
+      return `CardCode: ${order.cardCode}\nDocStatus: ${order.docStatus}`;
     });
 
     await ctx.deleteMessage(messageId);
@@ -102,7 +103,34 @@ purchaseMenuScene.hears(
 
 purchaseMenuScene.hears(
   [messages.ordersOnWay.uz, messages.ordersOnWay.ru, messages.ordersOnWay.en],
-  async (ctx) => {}
+  async (ctx) => {
+    const lang = ctx.user?.lang || "en";
+
+    const messageId = (await ctx.reply("⏳")).message_id;
+    const result = await getDeliveryNotes();
+
+    if (result?.error) {
+      logger.error(result.error);
+      await ctx.deleteMessage(messageId);
+      await ctx.reply(result.error);
+      await ctx.scene.leave();
+      return;
+    }
+
+    if (!result?.data) {
+      await ctx.deleteMessage(messageId);
+      await ctx.reply(messages.noOrdersFound[lang]);
+      await ctx.scene.leave();
+      return;
+    }
+
+    const orders = result.data.map((order) => {
+      return `CardCode: ${order.cardCode}\nDocStatus: ${order.docStatus}`;
+    });
+
+    await ctx.deleteMessage(messageId);
+    await ctx.reply(orders.join("\n\n"));
+  }
 );
 
 purchaseMenuScene.hears(
