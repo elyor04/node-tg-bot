@@ -4,13 +4,12 @@ interface AddPurchaseData {
     name: string;
     code: string;
   };
-  orders: [
-    {
-      name: string;
-      code: string;
-      quantity: string;
-    }
-  ];
+  orders: {
+    name: string;
+    code: string;
+    quantity: string;
+  }[];
+
   comment: string;
 }
 

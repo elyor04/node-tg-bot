@@ -25,8 +25,6 @@ const logoutFromSAP = async (cookies: string) => {
       error: `Could not login to SAP. ${errorMessage.trim()}`,
     };
   }
-
-  return {};
 };
 
 export default logoutFromSAP;

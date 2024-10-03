@@ -2,7 +2,11 @@ import axios from "axios";
 import { SAP_BASE_URL } from "../utils/config";
 import loginToSAP from "./login";
 
-const postQuotation = async () => {
+const postQuotation = async (
+  cardCode: string,
+  comment: string,
+  orders: { code: string; quantity: string }[]
+) => {
   const loginResult = await loginToSAP();
 
   if (loginResult?.error)
@@ -14,7 +18,16 @@ const postQuotation = async () => {
     const data = await axios
       .post(
         `${SAP_BASE_URL}/ServiceLayer/b1s/v2/Quotations`,
-        {},
+        {
+          CardCode: cardCode,
+          Comments: comment,
+          DocumentLines: orders.map((order) => {
+            return {
+              ItemCode: order.code,
+              Quantity: order.quantity,
+            };
+          }),
+        },
         {
           headers: {
             Cookie: loginResult.cookies,
@@ -35,10 +48,6 @@ const postQuotation = async () => {
       error: `Could not post quotation. ${errorMessage.trim()}`,
     };
   }
-
-  return {
-    data: null,
-  };
 };
 
 export default postQuotation;
