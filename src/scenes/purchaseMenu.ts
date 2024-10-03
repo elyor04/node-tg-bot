@@ -44,7 +44,11 @@ purchaseMenuScene.hears(
     if (result?.error) {
       logger.error(result.error);
       await ctx.deleteMessage(messageId);
-      await ctx.reply(result.error);
+      await ctx.reply(result.error, {
+        reply_markup: {
+          remove_keyboard: true,
+        },
+      });
       await ctx.scene.leave();
       return;
     }
@@ -52,7 +56,6 @@ purchaseMenuScene.hears(
     if (!result?.data) {
       await ctx.deleteMessage(messageId);
       await ctx.reply(messages.noOrdersFound[lang]);
-      await ctx.scene.leave();
       return;
     }
 
@@ -80,7 +83,11 @@ purchaseMenuScene.hears(
     if (result?.error) {
       logger.error(result.error);
       await ctx.deleteMessage(messageId);
-      await ctx.reply(result.error);
+      await ctx.reply(result.error, {
+        reply_markup: {
+          remove_keyboard: true,
+        },
+      });
       await ctx.scene.leave();
       return;
     }
@@ -88,7 +95,6 @@ purchaseMenuScene.hears(
     if (!result?.data) {
       await ctx.deleteMessage(messageId);
       await ctx.reply(messages.noOrdersFound[lang]);
-      await ctx.scene.leave();
       return;
     }
 
@@ -112,7 +118,11 @@ purchaseMenuScene.hears(
     if (result?.error) {
       logger.error(result.error);
       await ctx.deleteMessage(messageId);
-      await ctx.reply(result.error);
+      await ctx.reply(result.error, {
+        reply_markup: {
+          remove_keyboard: true,
+        },
+      });
       await ctx.scene.leave();
       return;
     }
@@ -120,7 +130,6 @@ purchaseMenuScene.hears(
     if (!result?.data) {
       await ctx.deleteMessage(messageId);
       await ctx.reply(messages.noOrdersFound[lang]);
-      await ctx.scene.leave();
       return;
     }
 

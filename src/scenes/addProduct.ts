@@ -25,7 +25,11 @@ addProductScene.enter(async (ctx) => {
   if (result?.error) {
     logger.error(result.error);
     await ctx.deleteMessage(messageId);
-    await ctx.reply(result.error);
+    await ctx.reply(result.error, {
+      reply_markup: {
+        remove_keyboard: true,
+      },
+    });
     await ctx.scene.leave();
     return;
   }
@@ -33,7 +37,6 @@ addProductScene.enter(async (ctx) => {
   if (!result?.data) {
     await ctx.deleteMessage(messageId);
     await ctx.reply(messages.noProductsFound[lang]);
-    await ctx.scene.leave();
     return;
   }
 
@@ -60,7 +63,6 @@ addProductScene.on("callback_query", async (ctx) => {
     };
 
     await ctx.reply(messages.enterQuantity[lang]);
-
   } else {
     if (callbackQuery.data === ">>") ctx.scene.session.addPurchase.skip += 10;
     else ctx.scene.session.addPurchase.skip -= 10;
@@ -69,14 +71,17 @@ addProductScene.on("callback_query", async (ctx) => {
 
     if (result?.error) {
       logger.error(result.error);
-      await ctx.reply(result.error);
+      await ctx.reply(result.error, {
+        reply_markup: {
+          remove_keyboard: true,
+        },
+      });
       await ctx.scene.leave();
       return;
     }
 
     if (!result?.data) {
       await ctx.reply(messages.noProductsFound[lang]);
-      await ctx.scene.leave();
       return;
     }
 
@@ -132,7 +137,6 @@ addProductScene.on(message("text"), async (ctx) => {
       .resize();
 
     await ctx.reply(messages.productAdded[lang], keyboard);
-
   } else {
     await ctx.reply(messages.selectProductFirst[lang]);
   }

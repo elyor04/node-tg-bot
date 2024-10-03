@@ -33,7 +33,11 @@ completedPurchasesScene.hears(
     if (result?.error) {
       logger.error(result.error);
       await ctx.deleteMessage(messageId);
-      await ctx.reply(result.error);
+      await ctx.reply(result.error, {
+        reply_markup: {
+          remove_keyboard: true,
+        },
+      });
       await ctx.scene.leave();
       return;
     }
@@ -41,7 +45,6 @@ completedPurchasesScene.hears(
     if (!result?.data) {
       await ctx.deleteMessage(messageId);
       await ctx.reply(messages.noPurchasesFound[lang]);
-      await ctx.scene.leave();
       return;
     }
 
@@ -65,7 +68,11 @@ completedPurchasesScene.hears(
     if (result?.error) {
       logger.error(result.error);
       await ctx.deleteMessage(messageId);
-      await ctx.reply(result.error);
+      await ctx.reply(result.error, {
+        reply_markup: {
+          remove_keyboard: true,
+        },
+      });
       await ctx.scene.leave();
       return;
     }
@@ -73,7 +80,6 @@ completedPurchasesScene.hears(
     if (!result?.data) {
       await ctx.deleteMessage(messageId);
       await ctx.reply(messages.noPurchasesFound[lang]);
-      await ctx.scene.leave();
       return;
     }
 
@@ -97,7 +103,11 @@ completedPurchasesScene.hears(
     if (result?.error) {
       logger.error(result.error);
       await ctx.deleteMessage(messageId);
-      await ctx.reply(result.error);
+      await ctx.reply(result.error, {
+        reply_markup: {
+          remove_keyboard: true,
+        },
+      });
       await ctx.scene.leave();
       return;
     }
@@ -105,7 +115,6 @@ completedPurchasesScene.hears(
     if (!result?.data) {
       await ctx.deleteMessage(messageId);
       await ctx.reply(messages.noPurchasesFound[lang]);
-      await ctx.scene.leave();
       return;
     }
 
@@ -129,7 +138,11 @@ completedPurchasesScene.hears(
     if (result?.error) {
       logger.error(result.error);
       await ctx.deleteMessage(messageId);
-      await ctx.reply(result.error);
+      await ctx.reply(result.error, {
+        reply_markup: {
+          remove_keyboard: true,
+        },
+      });
       await ctx.scene.leave();
       return;
     }
@@ -137,7 +150,6 @@ completedPurchasesScene.hears(
     if (!result?.data) {
       await ctx.deleteMessage(messageId);
       await ctx.reply(messages.noPurchasesFound[lang]);
-      await ctx.scene.leave();
       return;
     }
 
