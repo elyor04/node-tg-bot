@@ -2,7 +2,7 @@ import { Markup } from "telegraf";
 import Context from "../types/context";
 import Employee from "../database/models/Employee";
 import messages from "../utils/messages";
-import verifyUser from "../services/verifyUser";
+import getEmployeeInfo from "../services/getEmployeeInfo";
 import logger from "../utils/logger";
 
 const startCommand = async (ctx: Context) => {
@@ -36,25 +36,26 @@ const startCommand = async (ctx: Context) => {
 
   } else if (!employee) {
     const messageId = (await ctx.reply("⏳")).message_id;
-    const verifyResult = await verifyUser(ctx.user.phone);
+    const result = await getEmployeeInfo(ctx.user.phone);
 
-    if (verifyResult?.error) {
-      logger.error(verifyResult.error);
+    if (result?.error) {
+      logger.error(result.error);
       await ctx.deleteMessage(messageId);
-      await ctx.reply(verifyResult.error);
+      await ctx.reply(result.error);
       return;
     }
 
-    if (!verifyResult?.data) {
+    if (!result?.data) {
       await ctx.deleteMessage(messageId);
       await ctx.reply(messages.verifyError[lang]);
       return;
     }
 
     await Employee.create({
-      id: verifyResult.data.employeeID,
-      jobTitle: verifyResult.data.jobTitle,
-      name: verifyResult.data.employeeName,
+      id: result.data.employeeID,
+      jobTitle: result.data.jobTitle,
+      name: result.data.employeeName,
+      cardCode: result.data.cardCode,
       userId: ctx.user.id,
     });
 

@@ -2,7 +2,7 @@ import { Message } from "telegraf/types";
 import Context from "../types/context";
 import Employee from "../database/models/Employee";
 import messages from "../utils/messages";
-import verifyUser from "../services/verifyUser";
+import getEmployeeInfo from "../services/getEmployeeInfo";
 import logger from "../utils/logger";
 
 const phoneHandler = async (ctx: Context) => {
@@ -20,16 +20,16 @@ const phoneHandler = async (ctx: Context) => {
 
   if (phoneExisted) await ctx.reply(messages.phoneChanged[lang]);
   const messageId = (await ctx.reply("⏳")).message_id;
-  const verifyResult = await verifyUser(ctx.user.phone);
+  const result = await getEmployeeInfo(ctx.user.phone);
 
-  if (verifyResult?.error) {
-    logger.error(verifyResult.error);
+  if (result?.error) {
+    logger.error(result.error);
     await ctx.deleteMessage(messageId);
-    await ctx.reply(verifyResult.error);
+    await ctx.reply(result.error);
     return;
   }
 
-  if (!verifyResult?.data) {
+  if (!result?.data) {
     if (employee) {
       await employee.destroy();
     }
@@ -39,16 +39,18 @@ const phoneHandler = async (ctx: Context) => {
   }
 
   if (employee) {
-    employee.id = verifyResult.data.employeeID;
-    employee.jobTitle = verifyResult.data.jobTitle;
-    employee.name = verifyResult.data.employeeName;
+    employee.id = result.data.employeeID;
+    employee.jobTitle = result.data.jobTitle;
+    employee.name = result.data.employeeName;
+    employee.cardCode = result.data.cardCode;
     await employee.save();
 
   } else {
     await Employee.create({
-      id: verifyResult.data.employeeID,
-      jobTitle: verifyResult.data.jobTitle,
-      name: verifyResult.data.employeeName,
+      id: result.data.employeeID,
+      jobTitle: result.data.jobTitle,
+      name: result.data.employeeName,
+      cardCode: result.data.cardCode,
       userId: ctx.user.id,
     });
   }

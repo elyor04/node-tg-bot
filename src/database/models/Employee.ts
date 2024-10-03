@@ -10,6 +10,7 @@ class Employee extends Model {
     last: string;
     middle: string;
   };
+  public cardCode!: string;
   public userId!: number;
 
   public readonly createdAt!: Date;
@@ -28,6 +29,9 @@ Employee.init(
     },
     name: {
       type: DataTypes.JSON,
+    },
+    cardCode: {
+      type: DataTypes.STRING,
     },
     userId: {
       type: DataTypes.INTEGER,
