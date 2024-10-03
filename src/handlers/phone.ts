@@ -15,7 +15,8 @@ const phoneHandler = async (ctx: Context) => {
   const lang = ctx.user?.lang || "en";
   const phoneExisted = !!ctx.user.phone;
 
-  ctx.user.phone = message.contact.phone_number;
+  const phone = "+" + message.contact.phone_number.replace("+", "");
+  ctx.user.phone = phone;
   await ctx.user.save();
 
   if (phoneExisted) await ctx.reply(messages.phoneChanged[lang]);
