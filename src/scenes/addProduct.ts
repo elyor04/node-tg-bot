@@ -13,8 +13,8 @@ const addProductScene = new Scenes.BaseScene<Context>("addProduct");
 addProductScene.enter(async (ctx) => {
   const lang = ctx.user?.lang || "en";
 
+  // @ts-ignore
   ctx.scene.session.addPurchase = {
-    // @ts-ignore
     orders: [],
     skip: 0,
   };
