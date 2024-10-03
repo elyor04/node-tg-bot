@@ -9,7 +9,6 @@ interface AddPurchaseData {
     code: string;
     quantity: string;
   }[];
-
   comment: string;
 }
 

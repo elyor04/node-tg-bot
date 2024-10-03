@@ -11,7 +11,7 @@ const addPurchaseScene = new Scenes.WizardScene<Context>(
     const lang = ctx.user?.lang || "en";
     ctx.scene.session.addPurchase = addPurchaseData.get();
     await ctx.reply(messages.leaveComment[lang]);
-    await ctx.wizard.next();
+    return ctx.wizard.next();
   },
 
   async (ctx) => {
@@ -38,7 +38,11 @@ const addPurchaseScene = new Scenes.WizardScene<Context>(
       ),
       keyboard
     );
-  }
+
+    return ctx.wizard.next();
+  },
+
+  async (ctx) => {}
 );
 
 addPurchaseScene.hears(
