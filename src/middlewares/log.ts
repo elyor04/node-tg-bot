@@ -20,6 +20,7 @@ const logMiddleware = async (ctx: Context, next: () => Promise<void>) => {
         },
       });
 
+      await ctx.scene.leave();
       console.error(err);
     });
 };
