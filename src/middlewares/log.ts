@@ -14,7 +14,11 @@ const logMiddleware = async (ctx: Context, next: () => Promise<void>) => {
       const errorMessage = `${err?.name} - ${err?.message}`;
 
       logger.error(`${errorMessage}. Duration ${spentTime} ms`);
-      ctx.reply(errorMessage);
+      ctx.reply(errorMessage, {
+        reply_markup: {
+          remove_keyboard: true,
+        },
+      });
 
       console.error(err);
     });
