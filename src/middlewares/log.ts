@@ -2,19 +2,12 @@ import Context from "../types/context";
 import logger from "../utils/logger";
 
 const logMiddleware = async (ctx: Context, next: () => Promise<void>) => {
-  const user = ctx.from;
-  const user_id = user?.id;
-  const full_name = `${user?.first_name || ""} ${user?.last_name || ""}`.trim();
-  const username = user?.username ? `"@${user.username}"` : null;
-
   const startTime = Date.now();
 
   await next()
     .then(() => {
       const spentTime = Date.now() - startTime;
-      logger.info(
-        `User id=${user_id}, name="${full_name}", username=${username}. Duration ${spentTime} ms`
-      );
+      logger.info(`User id=${ctx.from?.id}. Duration ${spentTime} ms`);
     })
     .catch((err) => {
       const spentTime = Date.now() - startTime;

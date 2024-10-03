@@ -221,6 +221,16 @@ const messages = {
     ru: "Закупки не найдены",
     en: "No purchases found",
   },
+  purchaseAdded: {
+    uz: "Harid yaratildi",
+    ru: "Заказ был добавлен",
+    en: "Purchase has been added",
+  },
+  enterInfoAgain: {
+    uz: "Ma'lumotlarni qaytadan kiriting",
+    ru: "Введите данные заново",
+    en: "Enter the information again",
+  },
 };
 
 export default messages;
