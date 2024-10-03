@@ -231,6 +231,16 @@ const messages = {
     ru: "Введите данные заново",
     en: "Enter the information again",
   },
+  yourAccountBalance: {
+    uz: (balance: number) => `Hisobingizdagi balans: ${balance}`,
+    ru: (balance: number) => `Баланс вашего счета: ${balance}`,
+    en: (balance: number) => `Your account balance: ${balance}`,
+  },
+  noReviseActsFound: {
+    uz: "Hech qanday akt sverka topilmadi",
+    ru: "Акт сверки не найдены",
+    en: "No revise acts found",
+  },
 };
 
 export default messages;

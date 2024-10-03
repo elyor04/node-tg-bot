@@ -1,15 +1,13 @@
 import { Scenes, Markup } from "telegraf";
 import Context from "../types/context";
 import messages from "../utils/messages";
-import getInvoices from "../services/getInvoices";
+import getIncomingPayments from "../services/getIncomingPayments";
 import logger from "../utils/logger";
 import Employee from "../database/models/Employee";
 
-const completedPurchasesScene = new Scenes.BaseScene<Context>(
-  "completedPurchases"
-);
+const reviseActScene = new Scenes.BaseScene<Context>("reviseAct");
 
-completedPurchasesScene.enter(async (ctx) => {
+reviseActScene.enter(async (ctx) => {
   const lang = ctx.user?.lang || "en";
 
   const keyboard = Markup.keyboard([
@@ -23,7 +21,7 @@ completedPurchasesScene.enter(async (ctx) => {
   await ctx.reply(messages.selectPeriod[lang], keyboard);
 });
 
-completedPurchasesScene.hears(
+reviseActScene.hears(
   [messages.oneDay.uz, messages.oneDay.ru, messages.oneDay.en],
   async (ctx) => {
     const employee = (await Employee.findOne({
@@ -33,7 +31,7 @@ completedPurchasesScene.hears(
     const lang = ctx.user?.lang || "en";
 
     const messageId = (await ctx.reply("⏳")).message_id;
-    const result = await getInvoices({ days: 1 }, employee.cardCode);
+    const result = await getIncomingPayments({ days: 1 }, employee.cardCode);
 
     if (result?.error) {
       logger.error(result.error);
@@ -49,20 +47,20 @@ completedPurchasesScene.hears(
 
     if (!result?.data) {
       await ctx.deleteMessage(messageId);
-      await ctx.reply(messages.noPurchasesFound[lang]);
+      await ctx.reply(messages.noReviseActsFound[lang]);
       return;
     }
 
-    const purchases = result.data.map((purchase) => {
-      return `CardName: ${purchase.cardName}\nDocStatus: ${purchase.docStatus}`;
+    const reviseActs = result.data.map((reviseAct) => {
+      return `CardCode: ${reviseAct.cardCode}\nDocStatus: ${reviseAct.docStatus}`;
     });
 
     await ctx.deleteMessage(messageId);
-    await ctx.reply(purchases.join("\n\n"));
+    await ctx.reply(reviseActs.join("\n\n"));
   }
 );
 
-completedPurchasesScene.hears(
+reviseActScene.hears(
   [messages.oneWeek.uz, messages.oneWeek.ru, messages.oneWeek.en],
   async (ctx) => {
     const employee = (await Employee.findOne({
@@ -72,7 +70,7 @@ completedPurchasesScene.hears(
     const lang = ctx.user?.lang || "en";
 
     const messageId = (await ctx.reply("⏳")).message_id;
-    const result = await getInvoices({ weeks: 1 }, employee.cardCode);
+    const result = await getIncomingPayments({ weeks: 1 }, employee.cardCode);
 
     if (result?.error) {
       logger.error(result.error);
@@ -88,20 +86,20 @@ completedPurchasesScene.hears(
 
     if (!result?.data) {
       await ctx.deleteMessage(messageId);
-      await ctx.reply(messages.noPurchasesFound[lang]);
+      await ctx.reply(messages.noReviseActsFound[lang]);
       return;
     }
 
-    const purchases = result.data.map((purchase) => {
-      return `CardName: ${purchase.cardName}\nDocStatus: ${purchase.docStatus}`;
+    const reviseActs = result.data.map((reviseAct) => {
+      return `CardCode: ${reviseAct.cardCode}\nDocStatus: ${reviseAct.docStatus}`;
     });
 
     await ctx.deleteMessage(messageId);
-    await ctx.reply(purchases.join("\n\n"));
+    await ctx.reply(reviseActs.join("\n\n"));
   }
 );
 
-completedPurchasesScene.hears(
+reviseActScene.hears(
   [messages.oneMonth.uz, messages.oneMonth.ru, messages.oneMonth.en],
   async (ctx) => {
     const employee = (await Employee.findOne({
@@ -111,7 +109,7 @@ completedPurchasesScene.hears(
     const lang = ctx.user?.lang || "en";
 
     const messageId = (await ctx.reply("⏳")).message_id;
-    const result = await getInvoices({ months: 1 }, employee.cardCode);
+    const result = await getIncomingPayments({ months: 1 }, employee.cardCode);
 
     if (result?.error) {
       logger.error(result.error);
@@ -127,20 +125,20 @@ completedPurchasesScene.hears(
 
     if (!result?.data) {
       await ctx.deleteMessage(messageId);
-      await ctx.reply(messages.noPurchasesFound[lang]);
+      await ctx.reply(messages.noReviseActsFound[lang]);
       return;
     }
 
-    const purchases = result.data.map((purchase) => {
-      return `CardName: ${purchase.cardName}\nDocStatus: ${purchase.docStatus}`;
+    const reviseActs = result.data.map((reviseAct) => {
+      return `CardCode: ${reviseAct.cardCode}\nDocStatus: ${reviseAct.docStatus}`;
     });
 
     await ctx.deleteMessage(messageId);
-    await ctx.reply(purchases.join("\n\n"));
+    await ctx.reply(reviseActs.join("\n\n"));
   }
 );
 
-completedPurchasesScene.hears(
+reviseActScene.hears(
   [messages.allTime.uz, messages.allTime.ru, messages.allTime.en],
   async (ctx) => {
     const employee = (await Employee.findOne({
@@ -150,7 +148,7 @@ completedPurchasesScene.hears(
     const lang = ctx.user?.lang || "en";
 
     const messageId = (await ctx.reply("⏳")).message_id;
-    const result = await getInvoices({}, employee.cardCode);
+    const result = await getIncomingPayments({}, employee.cardCode);
 
     if (result?.error) {
       logger.error(result.error);
@@ -166,24 +164,24 @@ completedPurchasesScene.hears(
 
     if (!result?.data) {
       await ctx.deleteMessage(messageId);
-      await ctx.reply(messages.noPurchasesFound[lang]);
+      await ctx.reply(messages.noReviseActsFound[lang]);
       return;
     }
 
-    const purchases = result.data.map((purchase) => {
-      return `CardName: ${purchase.cardName}\nDocStatus: ${purchase.docStatus}`;
+    const reviseActs = result.data.map((reviseAct) => {
+      return `CardCode: ${reviseAct.cardCode}\nDocStatus: ${reviseAct.docStatus}`;
     });
 
     await ctx.deleteMessage(messageId);
-    await ctx.reply(purchases.join("\n\n"));
+    await ctx.reply(reviseActs.join("\n\n"));
   }
 );
 
-completedPurchasesScene.hears(
+reviseActScene.hears(
   [messages.backButton.uz, messages.backButton.ru, messages.backButton.en],
   async (ctx) => {
-    await ctx.scene.enter("purchaseMenu");
+    await ctx.scene.enter("paymentMenu");
   }
 );
 
-export default completedPurchasesScene;
+export default reviseActScene;

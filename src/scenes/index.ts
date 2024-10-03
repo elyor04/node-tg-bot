@@ -6,6 +6,7 @@ import paymentMenuScene from "./paymentMenu";
 import addPurchaseScene from "./addPurchase";
 import addProductScene from "./addProduct";
 import completedPurchasesScene from "./completedPurchases";
+import reviseActScene from "./reviseAct";
 
 const stage = new Scenes.Stage<Context>([
   mainMenuScene,
@@ -14,6 +15,7 @@ const stage = new Scenes.Stage<Context>([
   addProductScene,
   addPurchaseScene,
   completedPurchasesScene,
+  reviseActScene,
 ]);
 
 export default stage;

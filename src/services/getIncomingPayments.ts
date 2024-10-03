@@ -1,11 +1,11 @@
 import axios from "axios";
 import { SAP_BASE_URL } from "../utils/config";
 import loginToSAP from "./login";
-import Invoice from "../types/invoice";
+import IncomingPayment from "../types/incomingPayment";
 import Period from "../types/period";
 import getDates from "./utils/getDates";
 
-const getInvoices = async (
+const getIncomingPayments = async (
   period: Period,
   cardCode: string
 ): Promise<
@@ -14,7 +14,7 @@ const getInvoices = async (
       data?: undefined;
     }
   | {
-      data: Invoice[] | null;
+      data: IncomingPayment[] | null;
       error?: undefined;
     }
 > => {
@@ -36,9 +36,9 @@ const getInvoices = async (
 
   try {
     const data = await axios
-      .get(`${SAP_BASE_URL}/ServiceLayer/b1s/v2/Invoices`, {
+      .get(`${SAP_BASE_URL}/ServiceLayer/b1s/v2/IncomingPayments`, {
         params: {
-          $select: "CardName, DocumentStatus",
+          $select: "CardCode, DocumentStatus",
           $filter: filter,
         },
         headers: {
@@ -49,14 +49,14 @@ const getInvoices = async (
 
     if (data?.error?.message)
       return {
-        error: `Could not get invoices. ${data.error.message.trim()}`,
+        error: `Could not get incoming payments. ${data.error.message.trim()}`,
       };
 
     if (data?.value?.length)
       return {
         data: data.value.map((item: any) => {
           return {
-            cardName: item.CardName,
+            cardCode: item.CardCode,
             docStatus: item.DocumentStatus,
           };
         }),
@@ -66,7 +66,7 @@ const getInvoices = async (
     // @ts-ignore
     const errorMessage = err?.response?.data?.error?.message || `${err?.name} - ${err?.message}`;
     return {
-      error: `Could not get invoices. ${errorMessage.trim()}`,
+      error: `Could not get incoming payments. ${errorMessage.trim()}`,
     };
   }
 
@@ -75,4 +75,4 @@ const getInvoices = async (
   };
 };
 
-export default getInvoices;
+export default getIncomingPayments;
