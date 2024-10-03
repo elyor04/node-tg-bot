@@ -5,13 +5,17 @@ const logMiddleware = async (ctx: Context, next: () => Promise<void>) => {
   const startTime = Date.now();
 
   await next()
-    .then(() => {
+    .then(async () => {
       const spentTime = Date.now() - startTime;
       logger.info(`User id=${ctx.from?.id}. Duration ${spentTime} ms`);
     })
-    .catch((err) => {
+    .catch(async (err) => {
       const spentTime = Date.now() - startTime;
-      logger.error(`${err?.name} - ${err?.message}. Duration ${spentTime} ms`);
+      const errorMessage = `${err?.name} - ${err?.message}`;
+
+      logger.error(`${errorMessage}. Duration ${spentTime} ms`);
+      ctx.reply(errorMessage);
+
       console.error(err);
     });
 };
