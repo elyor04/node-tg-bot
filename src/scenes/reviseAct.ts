@@ -4,6 +4,7 @@ import messages from "../utils/messages";
 import getIncomingPayments from "../services/getIncomingPayments";
 import logger from "../utils/logger";
 import Employee from "../database/models/Employee";
+import formatDate from "../utils/formatDate";
 
 const reviseActScene = new Scenes.BaseScene<Context>("reviseAct");
 
@@ -31,7 +32,7 @@ reviseActScene.hears(
     const lang = ctx.user?.lang || "en";
 
     const messageId = (await ctx.reply("⏳")).message_id;
-    const result = await getIncomingPayments({ days: 1 }, employee.cardCode);
+    const result = await getIncomingPayments(employee.cardCode, { days: 1 });
 
     if (result?.error) {
       logger.error(result.error);
@@ -51,12 +52,20 @@ reviseActScene.hears(
       return;
     }
 
-    const reviseActs = result.data.map((reviseAct) => {
-      return `CardCode: ${reviseAct.cardCode}\nDocStatus: ${reviseAct.docStatus}`;
+    const reviseActs = result.data.map((reviseAct: any) => {
+      const docDate = formatDate(reviseAct.DocDate, "YYYY-MM-DD HH:mm");
+
+      const docLines = reviseAct.DocumentLines.map((item: any) => {
+        return `ItemDescription: ${item.ItemDescription}\nQuantity: ${item.Quantity}`;
+      });
+
+      return `DocDate: ${docDate}\nDocTotal: ${
+        reviseAct.DocTotal
+      }\n\nDocumentLines:\n${docLines.join("\n\n")}`;
     });
 
     await ctx.deleteMessage(messageId);
-    await ctx.reply(reviseActs.join("\n\n"));
+    await ctx.reply(reviseActs.join("\n\n------------------\n\n"));
   }
 );
 
@@ -70,7 +79,7 @@ reviseActScene.hears(
     const lang = ctx.user?.lang || "en";
 
     const messageId = (await ctx.reply("⏳")).message_id;
-    const result = await getIncomingPayments({ weeks: 1 }, employee.cardCode);
+    const result = await getIncomingPayments(employee.cardCode, { weeks: 1 });
 
     if (result?.error) {
       logger.error(result.error);
@@ -90,12 +99,20 @@ reviseActScene.hears(
       return;
     }
 
-    const reviseActs = result.data.map((reviseAct) => {
-      return `CardCode: ${reviseAct.cardCode}\nDocStatus: ${reviseAct.docStatus}`;
+    const reviseActs = result.data.map((reviseAct: any) => {
+      const docDate = formatDate(reviseAct.DocDate, "YYYY-MM-DD HH:mm");
+
+      const docLines = reviseAct.DocumentLines.map((item: any) => {
+        return `ItemDescription: ${item.ItemDescription}\nQuantity: ${item.Quantity}`;
+      });
+
+      return `DocDate: ${docDate}\nDocTotal: ${
+        reviseAct.DocTotal
+      }\n\nDocumentLines:\n${docLines.join("\n\n")}`;
     });
 
     await ctx.deleteMessage(messageId);
-    await ctx.reply(reviseActs.join("\n\n"));
+    await ctx.reply(reviseActs.join("\n\n------------------\n\n"));
   }
 );
 
@@ -109,7 +126,7 @@ reviseActScene.hears(
     const lang = ctx.user?.lang || "en";
 
     const messageId = (await ctx.reply("⏳")).message_id;
-    const result = await getIncomingPayments({ months: 1 }, employee.cardCode);
+    const result = await getIncomingPayments(employee.cardCode, { months: 1 });
 
     if (result?.error) {
       logger.error(result.error);
@@ -129,12 +146,20 @@ reviseActScene.hears(
       return;
     }
 
-    const reviseActs = result.data.map((reviseAct) => {
-      return `CardCode: ${reviseAct.cardCode}\nDocStatus: ${reviseAct.docStatus}`;
+    const reviseActs = result.data.map((reviseAct: any) => {
+      const docDate = formatDate(reviseAct.DocDate, "YYYY-MM-DD HH:mm");
+
+      const docLines = reviseAct.DocumentLines.map((item: any) => {
+        return `ItemDescription: ${item.ItemDescription}\nQuantity: ${item.Quantity}`;
+      });
+
+      return `DocDate: ${docDate}\nDocTotal: ${
+        reviseAct.DocTotal
+      }\n\nDocumentLines:\n${docLines.join("\n\n")}`;
     });
 
     await ctx.deleteMessage(messageId);
-    await ctx.reply(reviseActs.join("\n\n"));
+    await ctx.reply(reviseActs.join("\n\n------------------\n\n"));
   }
 );
 
@@ -148,7 +173,7 @@ reviseActScene.hears(
     const lang = ctx.user?.lang || "en";
 
     const messageId = (await ctx.reply("⏳")).message_id;
-    const result = await getIncomingPayments({}, employee.cardCode);
+    const result = await getIncomingPayments(employee.cardCode, {});
 
     if (result?.error) {
       logger.error(result.error);
@@ -168,12 +193,20 @@ reviseActScene.hears(
       return;
     }
 
-    const reviseActs = result.data.map((reviseAct) => {
-      return `CardCode: ${reviseAct.cardCode}\nDocStatus: ${reviseAct.docStatus}`;
+    const reviseActs = result.data.map((reviseAct: any) => {
+      const docDate = formatDate(reviseAct.DocDate, "YYYY-MM-DD HH:mm");
+
+      const docLines = reviseAct.DocumentLines.map((item: any) => {
+        return `ItemDescription: ${item.ItemDescription}\nQuantity: ${item.Quantity}`;
+      });
+
+      return `DocDate: ${docDate}\nDocTotal: ${
+        reviseAct.DocTotal
+      }\n\nDocumentLines:\n${docLines.join("\n\n")}`;
     });
 
     await ctx.deleteMessage(messageId);
-    await ctx.reply(reviseActs.join("\n\n"));
+    await ctx.reply(reviseActs.join("\n\n------------------\n\n"));
   }
 );
 

@@ -1,21 +1,12 @@
 import axios from "axios";
 import { SAP_BASE_URL } from "../utils/config";
 import loginToSAP from "./login";
-import DeliveryNote from "../types/deliveryNote";
 
 const getDeliveryNotes = async (
+  cardCode: string,
   top: number = 100,
   skip: number = 0
-): Promise<
-  | {
-      error: string;
-      data?: undefined;
-    }
-  | {
-      data: DeliveryNote[] | null;
-      error?: undefined;
-    }
-> => {
+) => {
   const loginResult = await loginToSAP();
 
   if (loginResult?.error)
@@ -29,8 +20,8 @@ const getDeliveryNotes = async (
         params: {
           $top: top,
           $skip: skip,
-          $select: "CardCode, DocumentStatus",
-          $filter: "Cancelled eq 'tNO'",
+          $select: "DocDate, DocTotal, DocumentLines",
+          $filter: `(Cancelled eq 'tNO') and (CardCode eq '${cardCode}') and (DocumentStatus eq 'bost_Open')`,
         },
         headers: {
           Cookie: loginResult.cookies,
@@ -47,8 +38,14 @@ const getDeliveryNotes = async (
       return {
         data: data.value.map((item: any) => {
           return {
-            cardCode: item.CardCode,
-            docStatus: item.DocumentStatus,
+            DocDate: new Date(item.DocDate),
+            DocTotal: item.DocTotal,
+            DocumentLines: item.DocumentLines.map((item: any) => {
+              return {
+                ItemDescription: item.ItemDescription,
+                Quantity: item.Quantity,
+              };
+            }),
           };
         }),
       };

@@ -4,6 +4,7 @@ import messages from "../utils/messages";
 import getInvoices from "../services/getInvoices";
 import logger from "../utils/logger";
 import Employee from "../database/models/Employee";
+import formatDate from "../utils/formatDate";
 
 const completedPurchasesScene = new Scenes.BaseScene<Context>(
   "completedPurchases"
@@ -33,7 +34,7 @@ completedPurchasesScene.hears(
     const lang = ctx.user?.lang || "en";
 
     const messageId = (await ctx.reply("⏳")).message_id;
-    const result = await getInvoices({ days: 1 }, employee.cardCode);
+    const result = await getInvoices(employee.cardCode, { days: 1 });
 
     if (result?.error) {
       logger.error(result.error);
@@ -53,12 +54,20 @@ completedPurchasesScene.hears(
       return;
     }
 
-    const purchases = result.data.map((purchase) => {
-      return `CardName: ${purchase.cardName}\nDocStatus: ${purchase.docStatus}`;
+    const purchases = result.data.map((purchase: any) => {
+      const docDate = formatDate(purchase.DocDate, "YYYY-MM-DD HH:mm");
+
+      const docLines = purchase.DocumentLines.map((item: any) => {
+        return `ItemDescription: ${item.ItemDescription}\nQuantity: ${item.Quantity}`;
+      });
+
+      return `DocDate: ${docDate}\nDocTotal: ${
+        purchase.DocTotal
+      }\n\nDocumentLines:\n${docLines.join("\n\n")}`;
     });
 
     await ctx.deleteMessage(messageId);
-    await ctx.reply(purchases.join("\n\n"));
+    await ctx.reply(purchases.join("\n\n------------------\n\n"));
   }
 );
 
@@ -72,7 +81,7 @@ completedPurchasesScene.hears(
     const lang = ctx.user?.lang || "en";
 
     const messageId = (await ctx.reply("⏳")).message_id;
-    const result = await getInvoices({ weeks: 1 }, employee.cardCode);
+    const result = await getInvoices(employee.cardCode, { weeks: 1 });
 
     if (result?.error) {
       logger.error(result.error);
@@ -92,12 +101,20 @@ completedPurchasesScene.hears(
       return;
     }
 
-    const purchases = result.data.map((purchase) => {
-      return `CardName: ${purchase.cardName}\nDocStatus: ${purchase.docStatus}`;
+    const purchases = result.data.map((purchase: any) => {
+      const docDate = formatDate(purchase.DocDate, "YYYY-MM-DD HH:mm");
+
+      const docLines = purchase.DocumentLines.map((item: any) => {
+        return `ItemDescription: ${item.ItemDescription}\nQuantity: ${item.Quantity}`;
+      });
+
+      return `DocDate: ${docDate}\nDocTotal: ${
+        purchase.DocTotal
+      }\n\nDocumentLines:\n${docLines.join("\n\n")}`;
     });
 
     await ctx.deleteMessage(messageId);
-    await ctx.reply(purchases.join("\n\n"));
+    await ctx.reply(purchases.join("\n\n------------------\n\n"));
   }
 );
 
@@ -111,7 +128,7 @@ completedPurchasesScene.hears(
     const lang = ctx.user?.lang || "en";
 
     const messageId = (await ctx.reply("⏳")).message_id;
-    const result = await getInvoices({ months: 1 }, employee.cardCode);
+    const result = await getInvoices(employee.cardCode, { months: 1 });
 
     if (result?.error) {
       logger.error(result.error);
@@ -131,12 +148,20 @@ completedPurchasesScene.hears(
       return;
     }
 
-    const purchases = result.data.map((purchase) => {
-      return `CardName: ${purchase.cardName}\nDocStatus: ${purchase.docStatus}`;
+    const purchases = result.data.map((purchase: any) => {
+      const docDate = formatDate(purchase.DocDate, "YYYY-MM-DD HH:mm");
+
+      const docLines = purchase.DocumentLines.map((item: any) => {
+        return `ItemDescription: ${item.ItemDescription}\nQuantity: ${item.Quantity}`;
+      });
+
+      return `DocDate: ${docDate}\nDocTotal: ${
+        purchase.DocTotal
+      }\n\nDocumentLines:\n${docLines.join("\n\n")}`;
     });
 
     await ctx.deleteMessage(messageId);
-    await ctx.reply(purchases.join("\n\n"));
+    await ctx.reply(purchases.join("\n\n------------------\n\n"));
   }
 );
 
@@ -150,7 +175,7 @@ completedPurchasesScene.hears(
     const lang = ctx.user?.lang || "en";
 
     const messageId = (await ctx.reply("⏳")).message_id;
-    const result = await getInvoices({}, employee.cardCode);
+    const result = await getInvoices(employee.cardCode, {});
 
     if (result?.error) {
       logger.error(result.error);
@@ -170,12 +195,20 @@ completedPurchasesScene.hears(
       return;
     }
 
-    const purchases = result.data.map((purchase) => {
-      return `CardName: ${purchase.cardName}\nDocStatus: ${purchase.docStatus}`;
+    const purchases = result.data.map((purchase: any) => {
+      const docDate = formatDate(purchase.DocDate, "YYYY-MM-DD HH:mm");
+
+      const docLines = purchase.DocumentLines.map((item: any) => {
+        return `ItemDescription: ${item.ItemDescription}\nQuantity: ${item.Quantity}`;
+      });
+
+      return `DocDate: ${docDate}\nDocTotal: ${
+        purchase.DocTotal
+      }\n\nDocumentLines:\n${docLines.join("\n\n")}`;
     });
 
     await ctx.deleteMessage(messageId);
-    await ctx.reply(purchases.join("\n\n"));
+    await ctx.reply(purchases.join("\n\n------------------\n\n"));
   }
 );
 

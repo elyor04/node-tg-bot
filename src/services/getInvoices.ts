@@ -1,23 +1,10 @@
 import axios from "axios";
 import { SAP_BASE_URL } from "../utils/config";
 import loginToSAP from "./login";
-import Invoice from "../types/invoice";
 import Period from "../types/period";
 import getDates from "./utils/getDates";
 
-const getInvoices = async (
-  period: Period,
-  cardCode: string
-): Promise<
-  | {
-      error: string;
-      data?: undefined;
-    }
-  | {
-      data: Invoice[] | null;
-      error?: undefined;
-    }
-> => {
+const getInvoices = async (cardCode: string, period: Period) => {
   const loginResult = await loginToSAP();
 
   if (loginResult?.error)
@@ -29,16 +16,16 @@ const getInvoices = async (
   let filter: string;
 
   if (dates) {
-    filter = `(Cancelled eq 'tNO') and (CardCode eq '${cardCode}') and (DocDate ge '${dates.start}') and (DocDate le '${dates.end}')`;
+    filter = `(Cancelled eq 'tNO') and (CardCode eq '${cardCode}') and (DocumentStatus eq 'bost_Open') and (DocDate ge '${dates.start}') and (DocDate le '${dates.end}')`;
   } else {
-    filter = `(Cancelled eq 'tNO') and (CardCode eq '${cardCode}')`;
+    filter = `(Cancelled eq 'tNO') and (CardCode eq '${cardCode}') and (DocumentStatus eq 'bost_Open')`;
   }
 
   try {
     const data = await axios
       .get(`${SAP_BASE_URL}/ServiceLayer/b1s/v2/Invoices`, {
         params: {
-          $select: "CardName, DocumentStatus",
+          $select: "DocDate, DocTotal, DocumentLines",
           $filter: filter,
         },
         headers: {
@@ -56,8 +43,14 @@ const getInvoices = async (
       return {
         data: data.value.map((item: any) => {
           return {
-            cardName: item.CardName,
-            docStatus: item.DocumentStatus,
+            DocDate: new Date(item.DocDate),
+            DocTotal: item.DocTotal,
+            DocumentLines: item.DocumentLines.map((item: any) => {
+              return {
+                ItemDescription: item.ItemDescription,
+                Quantity: item.Quantity,
+              };
+            }),
           };
         }),
       };

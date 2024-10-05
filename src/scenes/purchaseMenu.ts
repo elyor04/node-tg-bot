@@ -5,6 +5,8 @@ import getQuotations from "../services/getQuotations";
 import logger from "../utils/logger";
 import getOrders from "../services/getOrders";
 import getDeliveryNotes from "../services/getDeliveryNotes";
+import Employee from "../database/models/Employee";
+import formatDate from "../utils/formatDate";
 
 const purchaseMenuScene = new Scenes.BaseScene<Context>("purchaseMenu");
 
@@ -36,10 +38,14 @@ purchaseMenuScene.hears(
     messages.ordersInProgress.en,
   ],
   async (ctx) => {
+    const employee = (await Employee.findOne({
+      where: { userId: ctx.user.id },
+    })) as Employee;
+
     const lang = ctx.user?.lang || "en";
 
     const messageId = (await ctx.reply("⏳")).message_id;
-    const result = await getQuotations();
+    const result = await getQuotations(employee.cardCode);
 
     if (result?.error) {
       logger.error(result.error);
@@ -59,12 +65,20 @@ purchaseMenuScene.hears(
       return;
     }
 
-    const orders = result.data.map((order) => {
-      return `CardName: ${order.cardName}\nDocStatus: ${order.docStatus}`;
+    const orders = result.data.map((order: any) => {
+      const docDate = formatDate(order.DocDate, "YYYY-MM-DD HH:mm");
+
+      const docLines = order.DocumentLines.map((item: any) => {
+        return `ItemDescription: ${item.ItemDescription}\nQuantity: ${item.Quantity}`;
+      });
+
+      return `DocDate: ${docDate}\nDocTotal: ${
+        order.DocTotal
+      }\n\nDocumentLines:\n${docLines.join("\n\n")}`;
     });
 
     await ctx.deleteMessage(messageId);
-    await ctx.reply(orders.join("\n\n"));
+    await ctx.reply(orders.join("\n\n------------------\n\n"));
   }
 );
 
@@ -75,10 +89,14 @@ purchaseMenuScene.hears(
     messages.confirmedOrders.en,
   ],
   async (ctx) => {
+    const employee = (await Employee.findOne({
+      where: { userId: ctx.user.id },
+    })) as Employee;
+
     const lang = ctx.user?.lang || "en";
 
     const messageId = (await ctx.reply("⏳")).message_id;
-    const result = await getOrders();
+    const result = await getOrders(employee.cardCode);
 
     if (result?.error) {
       logger.error(result.error);
@@ -98,22 +116,34 @@ purchaseMenuScene.hears(
       return;
     }
 
-    const orders = result.data.map((order) => {
-      return `CardCode: ${order.cardCode}\nDocStatus: ${order.docStatus}`;
+    const orders = result.data.map((order: any) => {
+      const docDate = formatDate(order.DocDate, "YYYY-MM-DD HH:mm");
+
+      const docLines = order.DocumentLines.map((item: any) => {
+        return `ItemDescription: ${item.ItemDescription}\nQuantity: ${item.Quantity}`;
+      });
+
+      return `DocDate: ${docDate}\nDocTotal: ${
+        order.DocTotal
+      }\n\nDocumentLines:\n${docLines.join("\n\n")}`;
     });
 
     await ctx.deleteMessage(messageId);
-    await ctx.reply(orders.join("\n\n"));
+    await ctx.reply(orders.join("\n\n------------------\n\n"));
   }
 );
 
 purchaseMenuScene.hears(
   [messages.ordersOnWay.uz, messages.ordersOnWay.ru, messages.ordersOnWay.en],
   async (ctx) => {
+    const employee = (await Employee.findOne({
+      where: { userId: ctx.user.id },
+    })) as Employee;
+
     const lang = ctx.user?.lang || "en";
 
     const messageId = (await ctx.reply("⏳")).message_id;
-    const result = await getDeliveryNotes();
+    const result = await getDeliveryNotes(employee.cardCode);
 
     if (result?.error) {
       logger.error(result.error);
@@ -133,12 +163,20 @@ purchaseMenuScene.hears(
       return;
     }
 
-    const orders = result.data.map((order) => {
-      return `CardCode: ${order.cardCode}\nDocStatus: ${order.docStatus}`;
+    const orders = result.data.map((order: any) => {
+      const docDate = formatDate(order.DocDate, "YYYY-MM-DD HH:mm");
+
+      const docLines = order.DocumentLines.map((item: any) => {
+        return `ItemDescription: ${item.ItemDescription}\nQuantity: ${item.Quantity}`;
+      });
+
+      return `DocDate: ${docDate}\nDocTotal: ${
+        order.DocTotal
+      }\n\nDocumentLines:\n${docLines.join("\n\n")}`;
     });
 
     await ctx.deleteMessage(messageId);
-    await ctx.reply(orders.join("\n\n"));
+    await ctx.reply(orders.join("\n\n------------------\n\n"));
   }
 );
 
