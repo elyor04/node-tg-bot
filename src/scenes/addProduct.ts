@@ -41,13 +41,9 @@ addProductScene.enter(async (ctx) => {
   }
 
   const buttons = getButtons(result.data);
-  // const keyboard = Markup.keyboard([[messages.backButton[lang]]])
-  //   .oneTime()
-  //   .resize();
 
   await ctx.deleteMessage(messageId);
   await ctx.reply(messages.selectProduct[lang], Markup.inlineKeyboard(buttons));
-  // await ctx.reply("", keyboard);
 });
 
 addProductScene.on("callback_query", async (ctx) => {
@@ -110,13 +106,6 @@ addProductScene.hears(
   }
 );
 
-addProductScene.hears(
-  [messages.backButton.uz, messages.backButton.ru, messages.backButton.en],
-  async (ctx) => {
-    await ctx.scene.enter("purchaseMenu");
-  }
-);
-
 addProductScene.on(message("text"), async (ctx) => {
   const message = ctx.message as Message.TextMessage;
   const lang = ctx.user?.lang || "en";
@@ -130,9 +119,7 @@ addProductScene.on(message("text"), async (ctx) => {
     // @ts-ignore
     ctx.scene.session.addPurchase.order = null;
 
-    const keyboard = Markup.keyboard([
-      [messages.commentButton[lang], messages.backButton[lang]],
-    ])
+    const keyboard = Markup.keyboard([[messages.commentButton[lang]]])
       .oneTime()
       .resize();
 

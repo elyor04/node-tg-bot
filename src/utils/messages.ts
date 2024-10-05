@@ -241,6 +241,41 @@ const messages = {
     ru: "Акт сверки не найдены",
     en: "No revise acts found",
   },
+  selectPaymentCurrency: {
+    uz: "To'lov volyutasini tanlang",
+    ru: "Выберите валюту платежа",
+    en: "Select a payment currency",
+  },
+  bankAccountNumber: {
+    uz: "Bank hisob raqami",
+    ru: "Номер банковского счета",
+    en: "Bank account number",
+  },
+  enterPaymentAmount: {
+    uz: "To'lov summasini kiriting",
+    ru: "Введите сумму оплаты",
+    en: "Enter the payment amount",
+  },
+  paymentSummary: {
+    uz: (currency: string, amount: string, comment: string) => {
+      let text = "Kiritgan ma'lumotlaringiz to'g'rimi?\n\n";
+      text += `Valyuta: ${currency}\n\n`;
+      text += `Tolov summasi ${currency}: ${amount}\n\n`;
+      return text + `Izoh: ${comment}`;
+    },
+    ru: (currency: string, amount: string, comment: string) => {
+      let text = "Вы правильно ввели данные?\n\n";
+      text += `Валюта: ${currency}\n\n`;
+      text += `Сумма оплаты ${currency}: ${amount}\n\n`;
+      return text + `Комментарий: ${comment}`;
+    },
+    en: (currency: string, amount: string, comment: string) => {
+      let text = "Is the information you entered correct?\n\n";
+      text += `Currency: ${currency}\n\n`;
+      text += `Payment amount ${currency}: ${amount}\n\n`;
+      return text + `Comment: ${comment}`;
+    },
+  },
 };
 
 export default messages;

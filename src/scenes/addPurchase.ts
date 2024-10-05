@@ -31,14 +31,9 @@ const addPurchaseScene = new Scenes.WizardScene<Context>(
       .oneTime()
       .resize();
 
-    ctx.reply(
-      messages.ordersSummary[lang](
-        ctx.scene.session.addPurchase.orders,
-        ctx.scene.session.addPurchase.comment
-      ),
-      keyboard
-    );
+    const { orders, comment } = ctx.scene.session.addPurchase;
 
+    ctx.reply(messages.ordersSummary[lang](orders, comment), keyboard);
     return ctx.wizard.next();
   },
 
@@ -83,24 +78,14 @@ addPurchaseScene.hears(
   [messages.noButton.uz, messages.noButton.ru, messages.noButton.en],
   async (ctx) => {
     const lang = ctx.user?.lang || "en";
-
-    await ctx.reply(messages.processCancelled[lang], {
-      reply_markup: {
-        remove_keyboard: true,
-      },
-    });
-
-    await ctx.scene.enter("purchaseMenu");
+    await ctx.reply(messages.enterInfoAgain[lang]);
+    await ctx.scene.enter("addProduct");
   }
 );
 
 addPurchaseScene.hears(
   [messages.editButton.uz, messages.editButton.ru, messages.editButton.en],
-  async (ctx) => {
-    const lang = ctx.user?.lang || "en";
-    await ctx.reply(messages.enterInfoAgain[lang]);
-    await ctx.scene.enter("addProduct");
-  }
+  async (ctx) => {}
 );
 
 export default addPurchaseScene;

@@ -28,7 +28,7 @@ const getBusinessPartner = async (
         `${SAP_BASE_URL}/ServiceLayer/b1s/v2/BusinessPartners('${cardCode}')`,
         {
           params: {
-            $select: "CurrentAccountBalance",
+            $select: "CurrentAccountBalance, CardName",
           },
           headers: {
             Cookie: loginResult.cookies,
@@ -45,6 +45,7 @@ const getBusinessPartner = async (
     return {
       data: {
         currentAccountBalance: data.CurrentAccountBalance,
+        cardName: data.CardName,
       },
     };
 

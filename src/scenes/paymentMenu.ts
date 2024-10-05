@@ -57,7 +57,9 @@ paymentMenuScene.hears(
     messages.addOutgoingPayment.ru,
     messages.addOutgoingPayment.en,
   ],
-  async (ctx) => {}
+  async (ctx) => {
+    await ctx.scene.enter("addOutgoingPayment");
+  }
 );
 
 paymentMenuScene.hears(
