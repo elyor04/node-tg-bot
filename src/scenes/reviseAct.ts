@@ -54,14 +54,7 @@ reviseActScene.hears(
 
     const reviseActs = result.data.map((reviseAct: any) => {
       const docDate = formatDate(reviseAct.DocDate, "YYYY-MM-DD HH:mm");
-
-      const docLines = reviseAct.DocumentLines.map((item: any) => {
-        return `ItemDescription: ${item.ItemDescription}\nQuantity: ${item.Quantity}`;
-      });
-
-      return `DocDate: ${docDate}\nDocTotal: ${
-        reviseAct.DocTotal
-      }\n\nDocumentLines:\n${docLines.join("\n\n")}`;
+      return `DocDate: ${docDate}\nCashSum: ${reviseAct.CashSum}`;
     });
 
     await ctx.deleteMessage(messageId);
@@ -101,14 +94,7 @@ reviseActScene.hears(
 
     const reviseActs = result.data.map((reviseAct: any) => {
       const docDate = formatDate(reviseAct.DocDate, "YYYY-MM-DD HH:mm");
-
-      const docLines = reviseAct.DocumentLines.map((item: any) => {
-        return `ItemDescription: ${item.ItemDescription}\nQuantity: ${item.Quantity}`;
-      });
-
-      return `DocDate: ${docDate}\nDocTotal: ${
-        reviseAct.DocTotal
-      }\n\nDocumentLines:\n${docLines.join("\n\n")}`;
+      return `DocDate: ${docDate}\nCashSum: ${reviseAct.CashSum}`;
     });
 
     await ctx.deleteMessage(messageId);
@@ -148,14 +134,7 @@ reviseActScene.hears(
 
     const reviseActs = result.data.map((reviseAct: any) => {
       const docDate = formatDate(reviseAct.DocDate, "YYYY-MM-DD HH:mm");
-
-      const docLines = reviseAct.DocumentLines.map((item: any) => {
-        return `ItemDescription: ${item.ItemDescription}\nQuantity: ${item.Quantity}`;
-      });
-
-      return `DocDate: ${docDate}\nDocTotal: ${
-        reviseAct.DocTotal
-      }\n\nDocumentLines:\n${docLines.join("\n\n")}`;
+      return `DocDate: ${docDate}\nCashSum: ${reviseAct.CashSum}`;
     });
 
     await ctx.deleteMessage(messageId);
@@ -195,14 +174,7 @@ reviseActScene.hears(
 
     const reviseActs = result.data.map((reviseAct: any) => {
       const docDate = formatDate(reviseAct.DocDate, "YYYY-MM-DD HH:mm");
-
-      const docLines = reviseAct.DocumentLines.map((item: any) => {
-        return `ItemDescription: ${item.ItemDescription}\nQuantity: ${item.Quantity}`;
-      });
-
-      return `DocDate: ${docDate}\nDocTotal: ${
-        reviseAct.DocTotal
-      }\n\nDocumentLines:\n${docLines.join("\n\n")}`;
+      return `DocDate: ${docDate}\nCashSum: ${reviseAct.CashSum}`;
     });
 
     await ctx.deleteMessage(messageId);

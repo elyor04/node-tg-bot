@@ -16,16 +16,16 @@ const getIncomingPayments = async (cardCode: string, period: Period) => {
   let filter: string;
 
   if (dates) {
-    filter = `(Cancelled eq 'tNO') and (CardCode eq '${cardCode}') and (DocumentStatus eq 'bost_Open') and (DocDate ge '${dates.start}') and (DocDate le '${dates.end}')`;
+    filter = `(Cancelled eq 'tNO') and (CardCode eq '${cardCode}') and (DocDate ge '${dates.start}') and (DocDate le '${dates.end}')`;
   } else {
-    filter = `(Cancelled eq 'tNO') and (CardCode eq '${cardCode}') and (DocumentStatus eq 'bost_Open')`;
+    filter = `(Cancelled eq 'tNO') and (CardCode eq '${cardCode}')`;
   }
 
   try {
     const data = await axios
       .get(`${SAP_BASE_URL}/ServiceLayer/b1s/v2/IncomingPayments`, {
         params: {
-          $select: "DocDate, DocTotal, DocumentLines",
+          $select: "DocDate, CashSum",
           $filter: filter,
         },
         headers: {
@@ -44,13 +44,7 @@ const getIncomingPayments = async (cardCode: string, period: Period) => {
         data: data.value.map((item: any) => {
           return {
             DocDate: new Date(item.DocDate),
-            DocTotal: item.DocTotal,
-            DocumentLines: item.DocumentLines.map((item: any) => {
-              return {
-                ItemDescription: item.ItemDescription,
-                Quantity: item.Quantity,
-              };
-            }),
+            CashSum: item.CashSum,
           };
         }),
       };
